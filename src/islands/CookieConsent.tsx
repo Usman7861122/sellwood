@@ -46,16 +46,16 @@ export default function CookieConsent() {
 
   return (
     <div role="dialog" aria-label="Cookie preferences" aria-live="polite"
-      className="fixed inset-x-3 bottom-16 z-[60] md:inset-x-auto md:bottom-5 md:left-5 md:w-[390px]">
+      className="fixed inset-x-3 bottom-16 z-[60] md:inset-x-auto md:bottom-5 md:left-5 md:w-[420px]">
       <div className="rounded-2xl border border-forest/10 bg-cream/95 p-5 text-ink shadow-[0_30px_70px_-25px_rgba(17,23,10,.6)] backdrop-blur-xl">
         <p className="font-display text-xl text-forest">{custom ? 'Cookie settings' : 'We use cookies'}</p>
         {!custom ? (
           <>
             <p className="mt-2 text-sm leading-relaxed text-ink/70">We use a few cookies to keep the site working and, with your OK, to understand how it is used. You choose. <a href="/privacy-policy/" className="text-forest underline underline-offset-2">Privacy Policy</a></p>
-            <div className="mt-4 flex flex-wrap gap-2">
-              <button type="button" className="btn btn-sm btn-dark" onClick={() => done({ analytics: true, marketing: true })}>Accept all</button>
-              <button type="button" className="btn btn-sm btn-line" onClick={() => done({ analytics: false, marketing: false })}>Reject</button>
-              <button type="button" className="btn btn-sm btn-line" onClick={() => setCustom(true)}>Customize</button>
+            <div className="mt-4 grid grid-cols-3 gap-2">
+              <button type="button" className="btn btn-sm !px-2 !tracking-[.06em] btn-dark" onClick={() => done({ analytics: true, marketing: true })}>Accept all</button>
+              <button type="button" className="btn btn-sm !px-2 !tracking-[.06em] btn-line" onClick={() => done({ analytics: false, marketing: false })}>Reject</button>
+              <button type="button" className="btn btn-sm !px-2 !tracking-[.06em] btn-line" onClick={() => setCustom(true)}>Customize</button>
             </div>
           </>
         ) : (
@@ -73,10 +73,10 @@ export default function CookieConsent() {
                 </li>
               ))}
             </ul>
-            <div className="mt-3 flex flex-wrap gap-2">
-              <button type="button" className="btn btn-sm btn-dark" onClick={() => done(prefs)}>Save choices</button>
-              <button type="button" className="btn btn-sm btn-line" onClick={() => done({ analytics: true, marketing: true })}>Accept all</button>
-              <button type="button" className="btn btn-sm btn-line" onClick={() => (localStorage.getItem(KEY) ? setShow(false) : setCustom(false))}>Back</button>
+            <div className="mt-3 grid grid-cols-3 gap-2">
+              <button type="button" className="btn btn-sm !px-2 !tracking-[.06em] btn-dark" onClick={() => done(prefs)}>Save choices</button>
+              <button type="button" className="btn btn-sm !px-2 !tracking-[.06em] btn-line" onClick={() => done({ analytics: true, marketing: true })}>Accept all</button>
+              <button type="button" className="btn btn-sm !px-2 !tracking-[.06em] btn-line" onClick={() => (localStorage.getItem(KEY) ? setShow(false) : setCustom(false))}>Back</button>
             </div>
           </>
         )}
