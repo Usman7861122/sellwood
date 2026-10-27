@@ -2,11 +2,14 @@ import { images } from './images';
 import { site } from './site';
 import { localServicePaths } from './serviceCatalog';
 import { providerPages } from './providerPages';
+import info from './pages.json';
+import { locationPages } from './locationPages';
+const localInfoPaths = new Set<string>([...(info as any[]).map((p) => p.path), '/locations/', '/contact/', '/blog/', ...locationPages.map((l) => `/locations/${l.slug}/`)]);
 const localProviderPaths = new Set(['/providers/', ...providerPages.map((p) => `/providers/${p.slug}/`)]);
 
 // Menu copied from the live site (sellwoodmd.com). Inner pages still point to the old site.
 const alias: Record<string, string> = { '/services/newborn-care/pediatrics/': '/services/pediatrics/' };
-const o = (p: string) => (p.startsWith('http') ? p : alias[p] ?? (localServicePaths.has(p) || localProviderPaths.has(p) || p === '/services/' ? p : site.old + p));
+const o = (p: string) => (p.startsWith('http') ? p : alias[p] ?? (localServicePaths.has(p) || localProviderPaths.has(p) || p === '/services/' || localInfoPaths.has(p) ? p : site.old + p));
 
 export interface MenuLink { label: string; href: string; meta?: string; external?: boolean }
 export interface MenuGroup { title?: string; href?: string; cols?: 1 | 2; links: MenuLink[] }
