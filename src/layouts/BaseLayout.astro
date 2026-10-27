@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import CookieConsent from '../islands/CookieConsent';
 import SEO from '../components/seo/SEO.astro';
 
 interface Props { title: string; description?: string; image?: string; noindex?: boolean }
@@ -17,5 +18,6 @@ interface Props { title: string; description?: string; image?: string; noindex?:
   </head>
   <body>
     <slot />
+    <CookieConsent client:idle />
   </body>
 </html>
