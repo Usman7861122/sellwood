@@ -5,6 +5,11 @@ import Aura from '../../components/ui/Aura.astro';
 import Contact from '../../components/sections/Contact.astro';
 import { providerPages } from '../../data/providerPages';
 
+const label = (slug: string, url: string) =>
+  url.includes('sellwoodmd.com/pediatric-appointments') ? 'Appointment'
+  : url.includes('portal.athenahealth') ? 'Book Now'
+  : ({ sellwood: 'Sellwood Appointment', 'sellwood-adult-medicine': 'Sellwood Appointment', 'sellwood-gynecology': 'Sellwood Appointment', 'north-portland': 'North Appointment', beaverton: 'Westside Appointment' } as Record<string, string>)[slug] ?? 'Book Now';
+
 const groups = [
   { id: 'pediatrics', title: 'Pediatrics', list: providerPages.filter((p) => p.kind === 'ped') },
   { id: 'adult', title: 'Family practice and gynecology', list: providerPages.filter((p) => p.kind !== 'ped') },
@@ -31,14 +36,21 @@ const groups = [
         <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {g.list.map((p, i) => (
             <Reveal client:visible delay={(i % 4) * 0.07}>
-              <a href={`/providers/${p.slug}/`} class="group block h-full overflow-hidden rounded-3xl bg-white/80 shadow-[0_30px_60px_-35px_rgba(36,48,16,.5)] transition-all duration-500 hover:-translate-y-2">
-                <div class="aspect-[4/5] overflow-hidden bg-forest/5"><img src={p.photo} alt={`${p.name}, ${p.creds}`} loading="lazy" class="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105" /></div>
-                <div class="p-6">
-                  <h3 class="font-display text-xl text-forest">{p.name}, {p.creds}</h3>
-                  <p class="mt-1 text-sm text-ink/70">{p.role}</p>
-                  <span class="mt-4 inline-block text-xs font-semibold uppercase tracking-[.2em] text-maroon">View profile →</span>
+              <div class="group flex h-full flex-col overflow-hidden rounded-3xl bg-white/80 shadow-[0_30px_60px_-35px_rgba(36,48,16,.5)] transition-all duration-500 hover:-translate-y-2">
+                <a href={`/providers/${p.slug}/`} class="block">
+                  <div class="aspect-[4/5] overflow-hidden bg-forest/5"><img src={p.photo} alt={`${p.name}, ${p.creds}`} loading="lazy" class="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105" /></div>
+                </a>
+                <div class="flex flex-1 flex-col p-6">
+                  <a href={`/providers/${p.slug}/`}>
+                    <h3 class="font-display text-xl text-forest">{p.name}, {p.creds}</h3>
+                    <p class="mt-1 text-sm text-ink/70">{p.role}</p>
+                  </a>
+                  <div class="mt-auto flex flex-col gap-2 pt-5">
+                    {p.locations.map((l) => <a href={l.bookingUrl} target="_blank" rel="noopener" class="btn btn-dark w-full justify-center text-center">{label(l.slug, l.bookingUrl)}</a>)}
+                    <a href={`/providers/${p.slug}/`} class="btn btn-line w-full justify-center text-center">Learn More</a>
+                  </div>
                 </div>
-              </a>
+              </div>
             </Reveal>
           ))}
         </div>
