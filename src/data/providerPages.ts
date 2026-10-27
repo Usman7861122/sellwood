@@ -309,3 +309,8 @@ export const providerPages: ProviderPage[] = [
   },
   ...more,
 ];
+
+export const bookLabel = (slug: string, url: string) =>
+  url.includes('sellwoodmd.com/pediatric-appointments') ? 'Book an appointment'
+  : url.includes('portal.athenahealth') ? 'Book Now'
+  : ({ sellwood: 'Sellwood Appointment', 'sellwood-adult-medicine': 'Sellwood Appointment', 'sellwood-gynecology': 'Sellwood Appointment', 'north-portland': 'North Appointment', beaverton: 'Westside Appointment' } as Record<string, string>)[slug] ?? 'Book Now';

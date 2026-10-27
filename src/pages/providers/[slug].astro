@@ -4,7 +4,7 @@ import Reveal from '../../islands/Reveal';
 import Aura from '../../components/ui/Aura.astro';
 import Contact from '../../components/sections/Contact.astro';
 import { images } from '../../data/images';
-import { providerPages } from '../../data/providerPages';
+import { providerPages, bookLabel } from '../../data/providerPages';
 import { officeLocations, services, site } from '../../data/site';
 
 export function getStaticPaths() {
@@ -25,7 +25,7 @@ const q = (l: { address: string; city: string }) => encodeURIComponent(`${l.addr
       <div>
         <Reveal client:load>
           <nav class="text-xs uppercase tracking-[.2em] text-cream/60" aria-label="Breadcrumb">
-            <a href="/" class="hover:text-sprout">Home</a><span class="mx-2">/</span><a href={`${site.old}/providers/`} class="hover:text-sprout">Providers</a><span class="mx-2">/</span><span class="text-cream">{p.name}</span>
+            <a href="/" class="hover:text-sprout">Home</a><span class="mx-2">/</span><a href="/providers/" class="hover:text-sprout">Providers</a><span class="mx-2">/</span><span class="text-cream">{p.name}</span>
           </nav>
         </Reveal>
         <Reveal client:load delay={0.1}><p class="eyebrow mt-10 text-sprout">{p.role}</p></Reveal>
@@ -37,7 +37,7 @@ const q = (l: { address: string; city: string }) => encodeURIComponent(`${l.addr
         </Reveal>
         <Reveal client:load delay={0.35}>
           <div class="mt-10 flex flex-wrap gap-3">
-            <a href={p.locations[0].bookingUrl} target="_blank" rel="noopener" class="btn btn-primary">Book an appointment <span class="arrow">→</span></a>
+            {p.locations.map((l, i) => <a href={l.bookingUrl} target="_blank" rel="noopener" class={`btn ${i === 0 ? 'btn-primary' : 'btn-ghost'}`}>{bookLabel(l.slug, l.bookingUrl)} <span class="arrow">→</span></a>)}
             <a href={site.phoneHref} class="btn btn-ghost">Call {site.phone}</a>
           </div>
         </Reveal>
