@@ -1,0 +1,194 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import Reveal from '../../islands/Reveal';
+import OpenHours from '../../islands/OpenHours';
+import Aura from '../../components/ui/Aura.astro';
+import Contact from '../../components/sections/Contact.astro';
+import { images } from '../../data/images';
+import { locationPages } from '../../data/locationPages';
+import { services, site, locations } from '../../data/site';
+
+export function getStaticPaths() {
+  return locationPages.map((l) => ({ params: { slug: l.slug }, props: { l } }));
+}
+const { l } = Astro.props;
+const q = encodeURIComponent(`${l.address}, ${l.city}`);
+const svc = l.services.map((t) => services.find((s) => s.title === t)!).filter(Boolean);
+const initials = (n: string) => n.split(' ').map((w) => w[0]).slice(0, 2).join('');
+const others = locations.filter((o) => !o.name.includes(l.short) || !o.name.startsWith('Pediatrics,'));
+---
+<PageLayout title={l.title} description={l.description} image={l.hero}>
+  <!-- HERO -->
+  <section class="relative overflow-hidden bg-gradient-to-br from-forest via-forest to-ink px-5 pb-24 pt-44 text-cream md:px-10 md:pb-32 md:pt-56">
+    <Aura tone="dark" rich />
+    <div class="relative z-10 mx-auto grid max-w-[1400px] items-center gap-12 lg:grid-cols-[1.2fr_1fr]">
+      <div>
+      <Reveal client:load>
+        <nav class="text-xs uppercase tracking-[.2em] text-cream/60" aria-label="Breadcrumb">
+          <a href="/" class="hover:text-sprout">Home</a><span class="mx-2">/</span><a href={`${site.old}/locations/`} class="hover:text-sprout">Locations</a><span class="mx-2">/</span><span class="text-cream">{l.name}</span>
+        </nav>
+      </Reveal>
+      <Reveal client:load delay={0.1}><p class="eyebrow mt-10 text-sprout">Sellwood Medical Clinic</p></Reveal>
+      <Reveal client:load delay={0.15}>
+        <h1 class="mt-5 max-w-4xl font-display text-5xl leading-[1.05] md:text-7xl">Pediatrics in <em class="text-sprout">{l.short}.</em></h1>
+      </Reveal>
+      <Reveal client:load delay={0.25}>
+        <p class="mt-8 text-lg text-cream/80 md:text-xl">{l.address}, {l.city}</p>
+      </Reveal>
+      <Reveal client:load delay={0.35}>
+        <div class="mt-10 flex flex-wrap gap-3">
+          <a href={l.phoneHref} class="btn btn-primary">Call {l.phone}</a>
+          <a href={`https://www.google.com/maps/search/?api=1&query=${q}`} target="_blank" rel="noopener" class="btn btn-ghost">Get directions</a>
+          <a href={site.portalUrl} target="_blank" rel="noopener" class="btn btn-ghost">Patient Portal</a>
+        </div>
+      </Reveal>
+      </div>
+      <Reveal client:load kind="mask">
+        <div class="overflow-hidden rounded-3xl shadow-[0_50px_100px_-40px_rgba(0,0,0,.7)] ring-1 ring-cream/15">
+          <img src={l.hero} alt={l.name} class="aspect-[5/4] w-full object-cover transition-transform duration-[1200ms] hover:scale-105" />
+        </div>
+      </Reveal>
+    </div>
+  </section>
+
+  <!-- HOURS + CONTACT -->
+  <section class="relative overflow-hidden bg-forest px-5 py-24 text-cream md:px-10 md:py-32">
+    <Aura tone="dark" rich leaves={false} />
+    <div class="relative z-10 mx-auto grid max-w-[1400px] gap-12 lg:grid-cols-2">
+      <div>
+        <Reveal client:visible><p class="eyebrow text-sprout">Office hours</p></Reveal>
+        <Reveal client:visible delay={0.1}><h2 class="mt-6 mb-10 font-display text-4xl leading-[1.1] md:text-5xl">Open when <em class="text-sprout">you need us.</em></h2></Reveal>
+        <OpenHours client:load hours={l.hours} />
+      </div>
+      <div class="grid content-start gap-5">
+        <Reveal client:visible kind="right">
+          <div class="overflow-hidden rounded-3xl border border-cream/15 bg-cream/5 backdrop-blur">
+            <iframe title={`Map of ${l.name}`} src={`https://www.google.com/maps?q=${q}&output=embed`} loading="lazy" class="h-72 w-full border-0" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <div class="p-7">
+              <h3 class="font-display text-2xl">{l.name}</h3>
+              <p class="mt-2 text-cream/75">{l.address}<br />{l.city}</p>
+            </div>
+          </div>
+        </Reveal>
+        <div class="grid gap-5 sm:grid-cols-2">
+          <Reveal client:visible kind="zoom">
+            <a href={l.phoneHref} class="group block h-full rounded-3xl border border-cream/15 bg-cream/5 p-7 backdrop-blur transition-all duration-500 hover:-translate-y-2 hover:border-sprout hover:bg-sprout/15">
+              <p class="text-xs uppercase tracking-[.2em] text-sprout">Phone</p>
+              <p class="mt-3 font-display text-2xl">{l.phone}</p>
+            </a>
+          </Reveal>
+          {l.fax && (
+            <Reveal client:visible kind="zoom" delay={0.1}>
+              <div class="h-full rounded-3xl border border-cream/15 bg-cream/5 p-7 backdrop-blur transition-all duration-500 hover:-translate-y-2 hover:border-sprout hover:bg-sprout/15">
+                <p class="text-xs uppercase tracking-[.2em] text-sprout">Fax</p>
+                <p class="mt-3 font-display text-2xl">{l.fax}</p>
+              </div>
+            </Reveal>
+          )}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROVIDERS -->
+  <section id="providers" class="relative overflow-hidden bg-cream px-5 py-24 md:px-10 md:py-36">
+    <Aura tone="light" rich leaves={false} />
+    <div class="relative z-10 mx-auto max-w-[1400px]">
+      <Reveal client:visible><p class="eyebrow text-olive">Providers at this office</p></Reveal>
+      <Reveal client:visible delay={0.1}><h2 class="mt-6 max-w-3xl font-display text-4xl leading-[1.1] text-forest md:text-6xl">Meet the team caring for <em class="text-maroon">your family.</em></h2></Reveal>
+      <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+        {l.providers.map((p, i) => (
+          <Reveal client:visible kind="zoom" delay={(i % 5) * 0.07}>
+            <div class="group flex h-full flex-col overflow-hidden rounded-3xl border border-forest/10 bg-white/70 backdrop-blur transition-all duration-500 hover:-translate-y-2 hover:bg-white hover:shadow-[0_30px_60px_-25px_rgba(36,48,16,.5)]">
+              <div class="relative aspect-[4/5] overflow-hidden bg-gradient-to-br from-olive to-forest">
+                {p.img
+                  ? <img src={images.providers[p.img as keyof typeof images.providers]} alt={`${p.name}, ${p.creds}`} loading="lazy" class="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105" />
+                  : <span class="absolute inset-0 flex items-center justify-center font-display text-6xl text-cream/90 transition-transform duration-700 group-hover:scale-110">{initials(p.name)}</span>}
+              </div>
+              <div class="flex flex-1 flex-col p-6">
+                <h3 class="font-display text-xl leading-snug text-forest">{p.name}, {p.creds}</h3>
+                <p class="mt-1 text-sm text-ink/60">{p.role}</p>
+                <div class="mt-auto flex flex-wrap gap-x-5 gap-y-2 pt-5 text-xs font-semibold uppercase tracking-[.15em]">
+                  <a href={p.bookingUrl} target="_blank" rel="noopener" class="text-maroon hover:underline">Book</a>
+                  <a href={p.href ?? `${site.old}/providers/`} class="text-forest hover:underline">Profile</a>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services" class="relative overflow-hidden bg-sand px-5 py-24 md:px-10 md:py-32">
+    <div class="relative z-10 mx-auto max-w-[1400px]">
+      <Reveal client:visible><p class="eyebrow text-olive">Services at this office</p></Reveal>
+      <Reveal client:visible delay={0.1}><h2 class="mt-6 max-w-3xl font-display text-4xl leading-[1.1] text-forest md:text-6xl">Everything your child <em class="text-maroon">needs, close to home.</em></h2></Reveal>
+      <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {svc.map((s, i) => (
+          <Reveal client:visible kind="zoom" delay={i * 0.08}>
+            <a href={s.href} class="group block h-full overflow-hidden rounded-3xl bg-cream shadow-[0_30px_60px_-35px_rgba(36,48,16,.5)] transition-all duration-500 hover:-translate-y-2">
+              <div class="aspect-[4/3] overflow-hidden"><img src={images.services[s.img]} alt={s.title} loading="lazy" class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" /></div>
+              <div class="p-6">
+                <h3 class="font-display text-xl text-forest">{s.title}</h3>
+                <p class="mt-2 text-sm leading-relaxed text-ink/70">{s.text}</p>
+              </div>
+            </a>
+          </Reveal>
+        ))}
+      </div>
+      <Reveal client:visible delay={0.2}>
+        <ul class="mt-12 flex flex-wrap gap-3">
+          {l.extraServices.map((t) => <li class="rounded-xl border border-forest/20 px-4 py-2 text-sm text-forest/80 transition-colors hover:border-maroon hover:text-maroon">{t}</li>)}
+        </ul>
+      </Reveal>
+    </div>
+  </section>
+
+  <!-- MORE INFORMATION -->
+  <section class="relative overflow-hidden bg-forest px-5 py-24 text-cream md:px-10 md:py-28">
+    <Aura tone="dark" />
+    <div class="relative z-10 mx-auto max-w-3xl text-center">
+      <Reveal client:visible>
+        <h2 class="font-display text-3xl leading-[1.15] md:text-5xl">You can find more information on <em class="text-sprout">Sellwood Pediatric Clinic</em> below:</h2>
+      </Reveal>
+      <ul class="mt-12 grid gap-4 text-left">
+        {l.links.map((k, i) => (
+          <Reveal client:visible delay={i * 0.1}>
+            <li>
+              <a href={k.href} target="_blank" rel="noopener" class="group flex items-center gap-5 rounded-2xl border border-cream/15 bg-cream/5 px-6 py-5 backdrop-blur transition-all duration-500 hover:-translate-y-1 hover:border-sprout hover:bg-sprout/15">
+                <span class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-sprout text-forest transition-transform duration-500 group-hover:rotate-6">→</span>
+                <span class="min-w-0">
+                  <span class="block font-display text-xl">{k.label}</span>
+                  <span class="block truncate text-sm text-cream/60">{k.href.replace('https://', '')}</span>
+                </span>
+                <span class="ml-auto text-cream/50 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-sprout">↗</span>
+              </a>
+            </li>
+          </Reveal>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- OTHER LOCATIONS -->
+  <section class="relative overflow-hidden bg-cream px-5 py-24 md:px-10">
+    <div class="relative z-10 mx-auto max-w-[1400px]">
+      <Reveal client:visible><p class="eyebrow text-olive">Other locations</p></Reveal>
+      <div class="mt-10 grid gap-5 md:grid-cols-3">
+        {others.map((o, i) => (
+          <Reveal client:visible kind="zoom" delay={i * 0.1}>
+            <a href={`${site.old}/locations/`} class="group block h-full rounded-3xl border border-forest/10 bg-white/70 p-7 transition-all duration-500 hover:-translate-y-2 hover:bg-white hover:shadow-[0_30px_60px_-25px_rgba(36,48,16,.5)]">
+              <h3 class="font-display text-xl text-forest">{o.name}</h3>
+              <p class="mt-3 text-sm text-ink/70">{o.address}<br />{o.city}</p>
+              <span class="mt-5 inline-block text-xs font-semibold uppercase tracking-[.2em] text-maroon">View →</span>
+            </a>
+          </Reveal>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Contact />
+</PageLayout>

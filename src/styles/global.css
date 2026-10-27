@@ -1,0 +1,138 @@
+@import "tailwindcss";
+
+/* ---------- Fonts (self-hosted) ---------- */
+@font-face {
+  font-family: "Playfair Display";
+  src: url("/fonts/playfair-display-latin-wght-normal.woff2") format("woff2");
+  font-weight: 400 900; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Playfair Display";
+  src: url("/fonts/playfair-display-latin-wght-italic.woff2") format("woff2");
+  font-weight: 400 900; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/inter-latin-wght-normal.woff2") format("woff2");
+  font-weight: 100 900; font-style: normal; font-display: swap;
+}
+
+/* ---------- Tokens (colors come from the Sellwood logo) ---------- */
+@theme {
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+
+  --color-ink: #11170a;
+  --color-forest: #243010;
+  --color-moss: #3b4d1a;
+  --color-olive: #6b7f33;
+  --color-leaf: #92b037; /* logo green */
+  --color-maroon: #b71d24; /* logo red */
+  --color-cream: #f6f2e8;
+  --color-sand: #ebe3d0;
+  --color-sprout: #9fbd42; /* logo green, a little lighter, for accents on dark */
+}
+
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-sans);
+  background: var(--color-cream);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+::selection { background: var(--color-sprout); color: var(--color-ink); }
+
+/* ---------- Buttons: squarish with soft round edges ---------- */
+@layer components {
+.btn {
+  --btn-hover: #fff;
+  position: relative; isolation: isolate; overflow: hidden;
+  display: inline-flex; align-items: center; justify-content: center; gap: .65rem;
+  border-radius: .8rem; padding: .95rem 1.5rem;
+  font-size: .78rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
+  transition: color .4s, border-color .4s, transform .4s, box-shadow .4s;
+  white-space: nowrap;
+}
+.btn::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: var(--btn-hover);
+  transform: translateY(101%); transition: transform .5s cubic-bezier(.2,.8,.2,1);
+}
+.btn:hover::before { transform: none; }
+.btn:hover { transform: translateY(-2px); }
+.btn .arrow { transition: transform .4s; }
+.btn:hover .arrow { transform: translateX(5px); }
+
+.btn-primary { background: var(--color-cream); color: var(--color-forest); --btn-hover: var(--color-maroon); box-shadow: 0 12px 32px -14px rgba(0,0,0,.5); }
+.btn-primary:hover { color: var(--color-cream); }
+.btn-ghost { border: 1px solid rgba(255,255,255,.4); color: #fff; --btn-hover: rgba(255,255,255,.16); backdrop-filter: blur(6px); }
+.btn-dark  { background: var(--color-forest); color: var(--color-cream); --btn-hover: var(--color-olive); }
+.btn-line  { border: 1px solid color-mix(in srgb, var(--color-forest) 35%, transparent); color: var(--color-forest); --btn-hover: var(--color-sand); }
+}
+
+/* ---------- Animated backgrounds (so big light areas never feel flat) ---------- */
+.aura {
+  position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0;
+  /* fade the glow out at the top and bottom so no hard line shows between sections */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 220px, #000 calc(100% - 220px), transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 220px, #000 calc(100% - 220px), transparent 100%);
+}
+.aura i {
+  position: absolute; border-radius: 9999px; filter: blur(80px); opacity: .5;
+  animation: drift 24s ease-in-out infinite alternate;
+}
+.aura i:nth-child(2) { animation-duration: 31s; animation-delay: -8s; }
+.aura i:nth-child(3) { animation-duration: 38s; animation-delay: -15s; }
+.aura i:nth-child(4) { animation-duration: 27s; animation-delay: -4s; }
+@keyframes drift {
+  0%   { transform: translate3d(0,0,0) scale(1); }
+  50%  { transform: translate3d(7vw,-5vh,0) scale(1.2); }
+  100% { transform: translate3d(-5vw,6vh,0) scale(.95); }
+}
+.dots {
+  position: absolute; inset: 0; pointer-events: none; z-index: 0; opacity: .5;
+  background-image: radial-gradient(circle, rgba(36,48,16,.16) 1px, transparent 1.4px);
+  background-size: 26px 26px;
+  mask-image: radial-gradient(ellipse at center, #000 20%, transparent 75%);
+  animation: dotsmove 40s linear infinite;
+}
+.dots-light { background-image: radial-gradient(circle, rgba(255,255,255,.22) 1px, transparent 1.4px); }
+@keyframes dotsmove { to { background-position: 260px 130px; } }
+
+.grain::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 1; opacity: .07; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* floating leaf drops from the logo tree */
+.leafdrop {
+  position: absolute; width: 14px; height: 20px; border-radius: 50% 50% 50% 50% / 62% 62% 38% 38%;
+  opacity: 0; animation: rise 18s linear infinite; pointer-events: none;
+}
+@keyframes rise {
+  0%   { transform: translateY(40px) rotate(0deg) scale(.7); opacity: 0; }
+  15%  { opacity: .55; }
+  85%  { opacity: .4; }
+  100% { transform: translateY(-110vh) rotate(160deg) scale(1.1); opacity: 0; }
+}
+
+/* section helpers */
+.eyebrow {
+  display: inline-flex; align-items: center; gap: .8rem;
+  font-size: .72rem; font-weight: 600; letter-spacing: .28em; text-transform: uppercase;
+}
+.eyebrow::before { content: ""; width: 2.2rem; height: 1px; background: currentColor; opacity: .7; }
+
+.marquee { display: flex; width: max-content; animation: scroll var(--dur, 60s) linear infinite; }
+.marquee:hover { animation-play-state: paused; }
+.marquee.reverse { animation-direction: reverse; }
+@keyframes scroll { to { transform: translateX(-50%); } }
+
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}

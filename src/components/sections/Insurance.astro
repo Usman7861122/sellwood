@@ -1,0 +1,24 @@
+---
+import Reveal from '../../islands/Reveal';
+import { images } from '../../data/images';
+---
+<section id="insurance" class="relative overflow-hidden bg-cream px-5 py-28 md:px-10 md:py-32">
+  <div class="relative z-10 mx-auto max-w-[1400px] text-center">
+    <Reveal client:visible><p class="eyebrow text-olive">Accepted insurances</p></Reveal>
+    <Reveal client:visible delay={0.1}>
+      <h2 class="mx-auto mt-6 max-w-3xl font-display text-4xl leading-[1.1] text-forest md:text-5xl">We accept most major insurance providers.</h2>
+    </Reveal>
+    <Reveal client:visible delay={0.2}>
+      <p class="mx-auto mt-5 max-w-xl text-ink/70">Don’t see your plan? Please call the office. We are not accepting new Medicare patients.</p>
+    </Reveal>
+    <div class="mt-14 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+      {images.insurance.map((src, i) => (
+        <Reveal client:visible kind="zoom" delay={(i % 6) * 0.07}>
+          <div class="h-28 rounded-2xl border border-forest/10 bg-white/80 p-4 grayscale transition-all duration-500 hover:-translate-y-1 hover:grayscale-0 hover:shadow-[0_25px_50px_-25px_rgba(36,48,16,.45)]">
+            <img src={src} alt="Accepted insurance provider logo" loading="lazy" class="h-full w-full object-contain" />
+          </div>
+        </Reveal>
+      ))}
+    </div>
+  </div>
+</section>

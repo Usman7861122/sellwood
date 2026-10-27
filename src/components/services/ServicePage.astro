@@ -1,0 +1,188 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import Reveal from '../../islands/Reveal';
+import Aura from '../ui/Aura.astro';
+import Contact from '../sections/Contact.astro';
+import ServiceLocations from './ServiceLocations.astro';
+import { bodyOf, locationsOf, serviceHref, services, type Block, type Service } from '../../data/serviceCatalog';
+import type { ServiceLocation } from '../../data/site';
+import { site } from '../../data/site';
+
+interface Props { s: Service; loc?: ServiceLocation }
+const { s, loc } = Astro.props;
+
+// ---- title / meta ----
+const title = loc ? `${s.seo} in ${loc.where} | Sellwood Medical Clinic` : `${s.seo} in Portland, OR | Sellwood Medical Clinic`;
+const description = loc ? `${s.desc} Offered at our ${loc.full} office, ${loc.address}, ${loc.city}.` : s.desc;
+
+// ---- split the old-site text into an intro and FAQ items ----
+type Item = { t: 'p'; v: string } | { t: 'ul'; v: string[] } | { t: 'h'; v: string };
+const group = (bl: Block[]): Item[] => {
+  const out: Item[] = [];
+  for (const [t, v] of bl) {
+    if (t === 'li') { const last = out[out.length - 1]; if (last && last.t === 'ul') last.v.push(v); else out.push({ t: 'ul', v: [v] }); }
+    else if (t === 'h') out.push({ t: 'h', v });
+    else out.push({ t: 'p', v });
+  }
+  return out;
+};
+const all = bodyOf(s).filter((b) => b[0] !== 'h1');
+const faqs: { q: string; items: Item[] }[] = [];
+const intro: Block[] = [];
+let cur: Block[] | null = null;
+for (const b of all) {
+  if (b[0] === 'h' && b[1] === 'Frequently Asked Questions') continue;
+  if (b[0] === 'q') { cur = []; faqs.push({ q: b[1], items: [] }); (faqs[faqs.length - 1] as any)._b = cur; continue; }
+  (cur ?? intro).push(b);
+}
+faqs.forEach((f) => { f.items = group((f as any)._b); });
+const introHead = intro.find((b) => b[0] === 'h')?.[1];
+const introItems = group(intro.filter((b) => b[0] !== 'h'));
+
+const bookHref = { pediatric: `${site.old}/pediatric-appointments/`, adult: `${site.old}/adult-medicine/`, 'same-day': '/services/same-day-visit/', portal: site.portalUrl }[s.book];
+const bookLabel = s.book === 'portal' ? 'Patient Portal' : s.book === 'same-day' ? 'Same-day visit' : 'Book an appointment';
+
+const words = s.name.split(' ');
+const last = words.pop();
+const front = words.join(' ');
+
+const related = services.filter((x) => x.group === s.group && x.path !== s.path).slice(0, 3);
+const base = `/services/${s.path}/`;
+const locs = locationsOf(s);
+---
+<PageLayout title={title} description={description} image={s.img}>
+  <!-- HERO -->
+  <section class="relative overflow-hidden bg-gradient-to-br from-forest via-forest to-ink px-5 pb-24 pt-44 text-cream md:px-10 md:pb-32 md:pt-56">
+    <Aura tone="dark" rich />
+    <div class="relative z-10 mx-auto grid max-w-[1400px] items-center gap-12 lg:grid-cols-[1.2fr_1fr]">
+      <div>
+      <Reveal client:load>
+        <nav class="text-xs uppercase tracking-[.2em] text-cream/60" aria-label="Breadcrumb">
+          <a href="/" class="hover:text-sprout">Home</a><span class="mx-2">/</span><a href="/services/" class="hover:text-sprout">Services</a><span class="mx-2">/</span>
+          {loc ? <a href={base} class="hover:text-sprout">{s.name}</a> : <span class="text-cream">{s.name}</span>}
+          {loc && <><span class="mx-2">/</span><span class="text-cream">{loc.label}</span></>}
+        </nav>
+      </Reveal>
+      <Reveal client:load delay={0.1}><p class="eyebrow mt-10 text-sprout">{s.group}</p></Reveal>
+      <Reveal client:load delay={0.15}>
+        <h1 class="mt-5 max-w-5xl font-display text-5xl leading-[1.05] md:text-7xl">
+          {loc ? <>{s.name} in <em class="text-sprout">{loc.label}.</em></> : <>{front} <em class="text-sprout">{last}</em></>}
+        </h1>
+      </Reveal>
+      <Reveal client:load delay={0.25}><p class="mt-8 max-w-2xl text-lg leading-relaxed text-cream/80 md:text-xl">{s.tag}</p></Reveal>
+      <Reveal client:load delay={0.35}>
+        <div class="mt-10 flex flex-wrap gap-3">
+          <a href={bookHref} {...(bookHref.startsWith('http') ? { target: '_blank', rel: 'noopener' } : {})} class="btn btn-primary">{bookLabel} <span class="arrow">→</span></a>
+          <a href={site.phoneHref} class="btn btn-ghost">Call {site.phone}</a>
+        </div>
+      </Reveal>
+      <Reveal client:load delay={0.45}>
+        <div class="mt-12 max-w-4xl border-t border-cream/20 pt-8">
+          <p class="flex items-start gap-4 text-base font-light leading-relaxed text-cream/70 md:text-lg">
+            <svg class="mt-1 h-6 w-6 shrink-0 text-sprout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+            <span>{loc ? loc.nearby : 'Patients are welcome from across Portland, Beaverton and the greater Portland Metro area.'}</span>
+          </p>
+        </div>
+      </Reveal>
+      </div>
+      <Reveal client:load kind="mask">
+        <div class="overflow-hidden rounded-3xl shadow-[0_50px_100px_-40px_rgba(0,0,0,.7)] ring-1 ring-cream/15">
+          <img src={s.img} alt={s.name} class="aspect-[5/4] w-full object-cover transition-transform duration-[1200ms] hover:scale-105" />
+        </div>
+      </Reveal>
+    </div>
+  </section>
+
+  <!-- INTRO -->
+  <section class="relative overflow-hidden bg-cream px-5 py-24 md:px-10 md:py-36">
+    <Aura tone="light" rich leaves={false} />
+    <div class="relative z-10 mx-auto grid max-w-[1400px] gap-12 lg:grid-cols-[1fr_1.4fr]">
+      <div>
+        <Reveal client:visible><p class="eyebrow text-olive">About this service</p></Reveal>
+        <Reveal client:visible delay={0.1}>
+          <h2 class="mt-6 font-display text-4xl leading-[1.1] text-forest md:text-6xl">{introHead ?? s.name}</h2>
+        </Reveal>
+      </div>
+      <div class="space-y-5">
+        {introItems.map((it, i) => (
+          <Reveal client:visible delay={Math.min(i, 4) * 0.07}>
+            {it.t === 'p' && <p class={`leading-relaxed ${i === 0 ? 'text-lg text-ink/80' : 'text-ink/70'}`}>{it.v}</p>}
+            {it.t === 'ul' && (
+              <ul class="grid gap-2 sm:grid-cols-2">
+                {it.v.map((x) => <li class="flex gap-3 rounded-2xl border border-forest/10 bg-white/70 px-4 py-3 text-sm text-ink/80 backdrop-blur"><span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-maroon"></span>{x}</li>)}
+              </ul>
+            )}
+          </Reveal>
+        ))}
+        <Reveal client:visible delay={0.2}>
+          <div class="flex flex-wrap gap-3 pt-4">
+            <a href={bookHref} {...(bookHref.startsWith('http') ? { target: '_blank', rel: 'noopener' } : {})} class="btn btn-dark">{bookLabel} <span class="arrow">→</span></a>
+            <a href="#service-locations" class="btn btn-line">Find a location</a>
+          </div>
+        </Reveal>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  {faqs.length > 0 && (
+    <section class="relative overflow-hidden bg-forest px-5 py-24 text-cream md:px-10 md:py-32">
+      <Aura tone="dark" rich leaves={false} />
+      <div class="relative z-10 mx-auto grid max-w-[1400px] gap-12 lg:grid-cols-[1fr_1.6fr]">
+        <div class="lg:sticky lg:top-40 lg:self-start">
+          <Reveal client:visible><p class="eyebrow text-sprout">Good to know</p></Reveal>
+          <Reveal client:visible delay={0.1}><h2 class="mt-6 font-display text-4xl leading-[1.1] md:text-6xl">Frequently asked <em class="text-sprout">questions.</em></h2></Reveal>
+        </div>
+        <div class="grid gap-3">
+          {faqs.map((f, i) => (
+            <Reveal client:visible delay={Math.min(i, 5) * 0.06}>
+              <details class="group rounded-2xl border border-cream/15 bg-cream/5 backdrop-blur transition-colors duration-300 open:border-sprout/60 open:bg-cream/10 hover:border-sprout/50" open={i === 0}>
+                <summary class="flex cursor-pointer list-none items-center justify-between gap-6 px-6 py-5 font-display text-xl marker:hidden [&::-webkit-details-marker]:hidden">
+                  {f.q}
+                  <span class="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-sprout text-xl text-forest transition-transform duration-300 group-open:rotate-45">+</span>
+                </summary>
+                <div class="space-y-4 px-6 pb-6 leading-relaxed text-cream/75">
+                  {f.items.map((it) => (
+                    <>
+                      {it.t === 'p' && <p>{it.v}</p>}
+                      {it.t === 'h' && <h3 class="font-display text-xl text-sprout">{it.v}</h3>}
+                      {it.t === 'ul' && <ul class="grid gap-2 sm:grid-cols-2">{it.v.map((x) => <li class="flex gap-3 text-sm"><span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-sprout"></span>{x}</li>)}</ul>}
+                    </>
+                  ))}
+                </div>
+              </details>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <ServiceLocations base={base} serviceName={s.name} locations={locs} current={loc?.slug} />
+
+  <!-- RELATED -->
+  {related.length > 0 && (
+    <section class="relative overflow-hidden bg-sand px-5 py-24 md:px-10 md:py-32">
+      <div class="relative z-10 mx-auto max-w-[1400px]">
+        <Reveal client:visible><p class="eyebrow text-olive">More in {s.group.toLowerCase()}</p></Reveal>
+        <Reveal client:visible delay={0.1}><h2 class="mt-6 font-display text-4xl text-forest md:text-5xl">Related <em class="text-maroon">services.</em></h2></Reveal>
+        <div class="mt-12 grid gap-6 md:grid-cols-3">
+          {related.map((r, i) => (
+            <Reveal client:visible delay={i * 0.1}>
+              <a href={serviceHref(r)} class="group block h-full overflow-hidden rounded-3xl bg-cream shadow-[0_30px_60px_-35px_rgba(36,48,16,.5)] transition-all duration-500 hover:-translate-y-2">
+                <div class="aspect-[4/3] overflow-hidden"><img src={r.img} alt={r.name} loading="lazy" class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" /></div>
+                <div class="p-7">
+                  <h3 class="font-display text-2xl text-forest">{r.name}</h3>
+                  <p class="mt-2 text-sm leading-relaxed text-ink/70">{r.tag}</p>
+                  <span class="mt-4 inline-block text-xs font-semibold uppercase tracking-[.2em] text-maroon">Learn more →</span>
+                </div>
+              </a>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <Contact />
+</PageLayout>

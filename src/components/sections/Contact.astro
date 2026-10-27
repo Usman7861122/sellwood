@@ -1,0 +1,28 @@
+---
+import Reveal from '../../islands/Reveal';
+import ContactForm from '../../islands/ContactForm';
+import { site } from '../../data/site';
+---
+<section id="contact" class="relative overflow-hidden bg-sand px-5 py-28 md:px-10 md:py-36">
+  <div class="relative z-10 mx-auto grid max-w-[1400px] gap-16 lg:grid-cols-[1fr_1.2fr]">
+    <div>
+      <Reveal client:visible><p class="eyebrow text-olive">Get in touch</p></Reveal>
+      <Reveal client:visible delay={0.1}><h2 class="mt-6 font-display text-4xl leading-[1.1] text-forest md:text-6xl">We would love to <em class="text-maroon">hear from you.</em></h2></Reveal>
+      <Reveal client:visible delay={0.2}>
+        <div class="mt-10 grid gap-4 text-ink/75">
+          <a href={site.phoneHref} class="font-display text-3xl text-forest transition-colors hover:text-olive">{site.phone}</a>
+          <p>Portland and Beaverton, Oregon</p>
+          <div class="mt-4 flex flex-wrap gap-3">
+            <a href={site.portalUrl} target="_blank" rel="noopener" class="btn btn-dark">Patient Portal</a>
+            <a href={site.social.instagram} target="_blank" rel="noopener" class="btn btn-line">Instagram</a>
+          </div>
+        </div>
+      </Reveal>
+    </div>
+    <Reveal client:visible kind="right">
+      <div class="rounded-3xl border border-forest/10 bg-cream/70 p-6 shadow-[0_40px_80px_-40px_rgba(36,48,16,.45)] backdrop-blur-xl md:p-10">
+        <ContactForm client:visible />
+      </div>
+    </Reveal>
+  </div>
+</section>

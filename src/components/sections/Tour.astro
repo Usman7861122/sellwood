@@ -1,0 +1,27 @@
+---
+import Reveal from '../../islands/Reveal';
+import { images } from '../../data/images';
+const rowA = [...images.tour.slice(0, 6), ...images.tour.slice(0, 6)];
+const rowB = [...images.tour.slice(6), ...images.tour.slice(6)];
+---
+<section id="tour" class="relative overflow-hidden bg-ink py-28 text-cream md:py-36">
+  <div class="relative z-10 mx-auto max-w-[1400px] px-5 md:px-10">
+    <Reveal client:visible><p class="eyebrow text-sprout">Office tour</p></Reveal>
+    <Reveal client:visible delay={0.1}>
+      <h2 class="mt-6 max-w-3xl font-display text-4xl leading-[1.1] md:text-6xl">Step inside <em class="text-sprout">before you visit.</em></h2>
+    </Reveal>
+  </div>
+  <div class="relative z-10 mt-16 grid gap-5">
+    {[rowA, rowB].map((row, r) => (
+      <div class="overflow-hidden">
+        <div class={`marquee gap-5 ${r ? 'reverse' : ''}`} style={`--dur:${r ? 70 : 60}s`}>
+          {row.map((src) => (
+            <figure class="ml-5 h-56 w-80 shrink-0 overflow-hidden rounded-2xl md:h-72 md:w-[26rem]">
+              <img src={src} alt="Sellwood Medical Clinic office" loading="lazy" class="h-full w-full object-cover transition-transform duration-700 hover:scale-110" />
+            </figure>
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+</section>

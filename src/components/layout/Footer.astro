@@ -1,0 +1,61 @@
+---
+import Reveal from '../../islands/Reveal';
+import Aura from '../ui/Aura.astro';
+import { site, services } from '../../data/site';
+const year = new Date().getFullYear();
+---
+<footer class="relative overflow-hidden bg-ink pb-24 text-cream md:pb-0">
+  <Aura tone="dark" />
+  <div class="relative z-10 mx-auto max-w-[1400px] px-5 pt-32 md:px-10">
+    <div class="text-center">
+      <Reveal client:visible>
+        <h2 class="mx-auto max-w-4xl font-display text-4xl leading-[1.08] md:text-7xl">Experience exceptional care <em class="text-sprout">close to home.</em></h2>
+      </Reveal>
+      <Reveal client:visible delay={0.15}>
+        <p class="mx-auto mt-6 max-w-xl text-cream/70">Trusted family and pediatric care in Portland and Beaverton, with compassionate, patient-focused services across four locations.</p>
+        <div class="mt-10 flex flex-wrap justify-center gap-3">
+          <a href={site.bookingUrl} target="_blank" rel="noopener" class="btn btn-primary">Book a visit <span class="arrow">→</span></a>
+          <a href={site.portalUrl} target="_blank" rel="noopener" class="btn btn-ghost">Patient Portal</a>
+        </div>
+      </Reveal>
+    </div>
+
+    <div class="mt-28 grid gap-12 border-t border-white/10 py-16 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+      <div>
+        <img src="/images/logo.png" alt="Sellwood Medical Clinic" class="h-28 w-auto drop-shadow-[0_4px_16px_rgba(0,0,0,.45)]" loading="lazy" />
+        <p class="mt-5 max-w-xs text-sm leading-relaxed text-cream/65">{site.tagline}. Four locations, same-day visits, most insurance accepted.</p>
+        <a href={site.phoneHref} class="mt-5 inline-block font-display text-2xl text-sprout">{site.phone}</a>
+      </div>
+      <nav aria-label="Quick links">
+        <h3 class="text-xs uppercase tracking-[.25em] text-sprout">Quick links</h3>
+        <ul class="mt-5 grid gap-3 text-sm text-cream/75">
+          <li><a class="hover:text-sprout" href="#about">About</a></li>
+          <li><a class="hover:text-sprout" href={`${site.old}/articles/`}>Articles</a></li>
+          <li><a class="hover:text-sprout" href={`${site.old}/testimonials/`}>Testimonials</a></li>
+          <li><a class="hover:text-sprout" href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <nav aria-label="Services">
+        <h3 class="text-xs uppercase tracking-[.25em] text-sprout">Services</h3>
+        <ul class="mt-5 grid gap-3 text-sm text-cream/75">
+          {services.filter((_, i) => [0, 1, 2, 3, 4].includes(i)).map((s) => <li><a class="hover:text-sprout" href={s.href}>{s.title}</a></li>)}
+        </ul>
+      </nav>
+      <div>
+        <h3 class="text-xs uppercase tracking-[.25em] text-sprout">Follow</h3>
+        <ul class="mt-5 grid gap-3 text-sm text-cream/75">
+          <li><a class="hover:text-sprout" href={site.social.facebook} target="_blank" rel="noopener">Facebook</a></li>
+          <li><a class="hover:text-sprout" href={site.social.instagram} target="_blank" rel="noopener">Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-3 border-t border-white/10 py-8 text-xs text-cream/50 md:flex-row md:justify-between">
+      <p>© {year} {site.name}. All rights reserved.</p>
+      <p class="flex gap-5">
+        <a class="hover:text-sprout" href={`${site.old}/privacy-policy/`}>Privacy Policy</a>
+        <a class="hover:text-sprout" href={`${site.old}/terms-conditions/`}>Terms &amp; Conditions</a>
+      </p>
+    </div>
+  </div>
+</footer>

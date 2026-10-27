@@ -1,0 +1,42 @@
+---
+import Reveal from '../../islands/Reveal';
+import Aura from '../ui/Aura.astro';
+import { site } from '../../data/site';
+---
+<section id="about" class="relative overflow-hidden bg-cream px-5 py-28 md:px-10 md:py-40">
+  <Aura tone="light" rich />
+  <div class="relative z-10 mx-auto grid max-w-[1400px] items-center gap-16 lg:grid-cols-2">
+    <Reveal client:visible kind="mask">
+      <div class="relative">
+        <div class="overflow-hidden rounded-3xl shadow-[0_50px_100px_-40px_rgba(36,48,16,.55)]">
+          <img src="/images/about/family-selfie.jpg" width="1600" height="1281" alt="A happy family of three smiling together" loading="lazy" class="aspect-[5/4] h-auto w-full object-cover transition-transform duration-[1200ms] ease-out hover:scale-[1.03]" />
+        </div>
+        <div class="absolute -bottom-6 -right-2 rounded-2xl bg-forest px-7 py-5 text-cream shadow-2xl md:-right-8">
+          <p class="font-display text-4xl text-sprout">23+</p>
+          <p class="text-xs uppercase tracking-[.2em] text-cream/70">Years of care</p>
+        </div>
+      </div>
+    </Reveal>
+
+    <div>
+      <Reveal client:visible><p class="eyebrow text-olive">About us</p></Reveal>
+      <Reveal client:visible delay={0.1}>
+        <h2 class="mt-6 font-display text-4xl leading-[1.1] text-forest md:text-6xl">A well-loved clinic for <em class="text-maroon">every member</em> of your family.</h2>
+      </Reveal>
+      <Reveal client:visible delay={0.2}>
+        <p class="mt-8 text-lg leading-relaxed text-ink/75">
+          Sellwood Medical Clinic is an established family medicine and pediatric practice with four locations in the greater Portland Metro area. We focus on compassionate, patient-centered care and are an important part of our community.
+        </p>
+        <p class="mt-5 leading-relaxed text-ink/70">
+          Our team has a wide range of training and specialties. We provide expert family care and award-winning pediatric care, so everyone from newborns to grandparents is looked after. We also offer gynecological services for women’s health, and we build long-term relationships for preventive care and quick help with unexpected illness or injury.
+        </p>
+      </Reveal>
+      <Reveal client:visible delay={0.3}>
+        <div class="mt-10 flex flex-wrap gap-3">
+          <a href="/about-sellwood-medical-clinic/" class="btn btn-dark">Learn more <span class="arrow">→</span></a>
+          <a href="#providers" class="btn btn-line">Meet our team</a>
+        </div>
+      </Reveal>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,30 @@
+---
+import HeroText from '../../islands/HeroText';
+---
+<section id="hero" class="relative h-[100svh] min-h-[640px] w-full overflow-hidden bg-ink">
+  <video
+    class="absolute inset-0 h-full w-full object-cover"
+    autoplay muted loop playsinline preload="metadata"
+    poster="/video/hero-poster.jpg"
+    aria-hidden="true"
+  >
+    <source src="/video/hero.mp4" type="video/mp4" />
+  </video>
+  <!-- dark veil: left side stronger so text stays readable -->
+  <div class="absolute inset-0 bg-gradient-to-r from-ink/80 via-ink/40 to-ink/10"></div>
+  <div class="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-ink/80 to-transparent"></div>
+  <div class="absolute inset-0 grain" style="mix-blend-mode:overlay"></div>
+
+  <HeroText client:load />
+
+  <a href="#highlights" aria-label="Scroll down" class="absolute bottom-32 right-5 z-10 hidden items-center gap-3 text-[.7rem] uppercase tracking-[.3em] text-white/70 md:right-10 md:flex">
+    Scroll
+    <span class="relative block h-12 w-px overflow-hidden bg-white/25">
+      <i class="absolute inset-x-0 top-0 h-5 animate-[scrollcue_2s_ease-in-out_infinite] bg-sprout"></i>
+    </span>
+  </a>
+</section>
+
+<style is:global>
+  @keyframes scrollcue { 0% { transform: translateY(-100%); } 100% { transform: translateY(260%); } }
+</style>

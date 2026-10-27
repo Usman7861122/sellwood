@@ -1,0 +1,62 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import Reveal from '../../islands/Reveal';
+import Aura from '../../components/ui/Aura.astro';
+import Contact from '../../components/sections/Contact.astro';
+import { services, groups, serviceHref, locationsOf } from '../../data/serviceCatalog';
+import { images } from '../../data/images';
+
+const meet = { path: 'newborn-care/expecting-parents-newborn-meet-greet', name: 'Expecting Parents Meet & Greet', tag: 'A complimentary visit to meet your provider before your baby is born.', img: images.meetGreetHero, group: 'Newborn care', n: 3 };
+const items = (g: string) => [
+  ...services.filter((s) => s.group === g).map((s) => ({ href: serviceHref(s), name: s.name, tag: s.tag, img: s.img, n: locationsOf(s).length })),
+  ...(g === 'Newborn care' ? [{ href: `/services/${meet.path}/`, name: meet.name, tag: meet.tag, img: meet.img, n: meet.n }] : []),
+];
+const total = groups.reduce((a, g) => a + items(g).length, 0);
+const slug = (g: string) => g.toLowerCase().replace(/[^a-z]+/g, '-');
+---
+<PageLayout title="Our Services | Sellwood Medical Clinic" description="Pediatrics, newborn care, family medicine, internal medicine, gynecology and same-day visits in Portland and Beaverton, Oregon.">
+  <section class="relative overflow-hidden bg-gradient-to-br from-forest via-forest to-ink px-5 pb-24 pt-44 text-cream md:px-10 md:pb-32 md:pt-56">
+    <Aura tone="dark" rich />
+    <div class="relative z-10 mx-auto grid max-w-[1400px] items-center gap-12 lg:grid-cols-[1.2fr_1fr]">
+      <div>
+      <Reveal client:load><p class="eyebrow text-sprout">Services</p></Reveal>
+      <Reveal client:load delay={0.1}><h1 class="mt-5 max-w-4xl font-display text-5xl leading-[1.05] md:text-7xl">Care for every <em class="text-sprout">age and stage.</em></h1></Reveal>
+      <Reveal client:load delay={0.2}><p class="mt-8 max-w-2xl text-lg text-cream/80">{total} services, from newborn visits to adult medicine. Find the service you need and the office closest to you.</p></Reveal>
+      <Reveal client:load delay={0.3}>
+        <div class="mt-10 flex flex-wrap gap-3">
+          {groups.map((g) => <a href={`#${slug(g)}`} class="rounded-lg border border-cream/30 px-4 py-2 text-xs font-semibold uppercase tracking-[.16em] text-cream transition-all duration-300 hover:-translate-y-0.5 hover:border-sprout hover:bg-sprout hover:text-forest">{g}</a>)}
+        </div>
+      </Reveal>
+      </div>
+      <Reveal client:load kind="mask">
+        <div class="grid grid-cols-2 gap-4">
+          <div class="row-span-2 overflow-hidden rounded-3xl shadow-[0_50px_100px_-40px_rgba(0,0,0,.7)] ring-1 ring-cream/15"><img src="/images/services/lactation-support.jpg" alt="Lactation support" class="h-full w-full object-cover transition-transform duration-[1200ms] hover:scale-105" /></div>
+          <div class="overflow-hidden rounded-3xl shadow-[0_30px_60px_-30px_rgba(0,0,0,.7)] ring-1 ring-cream/15"><img src="/images/services/frenotomy.jpg" alt="Newborn care" class="aspect-[4/3] w-full object-cover transition-transform duration-[1200ms] hover:scale-105" /></div>
+          <div class="overflow-hidden rounded-3xl shadow-[0_30px_60px_-30px_rgba(0,0,0,.7)] ring-1 ring-cream/15"><img src="/images/services/telemedicine.jpg" alt="Telemedicine" class="aspect-[4/3] w-full object-cover transition-transform duration-[1200ms] hover:scale-105" /></div>
+        </div>
+      </Reveal>
+    </div>
+  </section>
+  {groups.map((g, gi) => (
+    <section id={slug(g)} class={`relative scroll-mt-40 overflow-hidden px-5 py-20 md:px-10 md:py-28 ${gi % 2 ? 'bg-sand' : 'bg-cream'}`}>
+      <div class="relative z-10 mx-auto max-w-[1400px]">
+        <Reveal client:visible><h2 class="font-display text-4xl text-forest md:text-5xl">{g}</h2></Reveal>
+        <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {items(g).map((s, i) => (
+            <Reveal client:visible delay={(i % 3) * 0.08}>
+              <a href={s.href} class="group block h-full overflow-hidden rounded-3xl bg-white/80 shadow-[0_30px_60px_-35px_rgba(36,48,16,.5)] transition-all duration-500 hover:-translate-y-2">
+                <div class="aspect-[4/3] overflow-hidden"><img src={s.img} alt={s.name} loading="lazy" class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" /></div>
+                <div class="p-7">
+                  <h3 class="font-display text-2xl text-forest">{s.name}</h3>
+                  <p class="mt-2 text-sm leading-relaxed text-ink/70">{s.tag}</p>
+                  <p class="mt-4 text-xs uppercase tracking-[.18em] text-olive">{s.n} {s.n === 1 ? 'location' : 'locations'}</p>
+                </div>
+              </a>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  ))}
+  <Contact />
+</PageLayout>

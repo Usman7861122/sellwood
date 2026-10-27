@@ -1,0 +1,132 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import Reveal from '../../islands/Reveal';
+import Aura from '../ui/Aura.astro';
+import Contact from '../sections/Contact.astro';
+import ServiceLocations from './ServiceLocations.astro';
+import { images } from '../../data/images';
+import { services, site, pediatricLocations, type ServiceLocation } from '../../data/site';
+
+interface Props { location?: ServiceLocation }
+const { location } = Astro.props;
+const BASE = '/services/newborn-care/expecting-parents-newborn-meet-greet/';
+const title = location
+  ? `Expecting Parents & Newborn Meet & Greet in ${location.where} | Sellwood Medical Clinic`
+  : 'Expecting Parents & Newborn Meet & Greet in Portland, OR | Sellwood Medical Clinic';
+const description = location
+  ? `Meet your pediatric provider before your baby is born. Complimentary Newborn Meet & Greet at Sellwood Medical Clinic, ${location.address}, ${location.city}.`
+  : 'Expecting a baby? Meet your pediatric provider before your child is born with a complimentary Meet & Greet at Sellwood Medical Clinic in Portland and Beaverton.';
+
+const reasons = [
+  { n: '01', t: 'Meet your provider', d: 'Spend time with your provider and learn about their approach to newborn and pediatric care.' },
+  { n: '02', t: 'Build trust early', d: 'Choosing a doctor well before your baby arrives lets you begin a trusting relationship with the person who will guide your baby’s health and wellness.' },
+  { n: '03', t: 'Feel less stress', d: 'It goes a long way toward easing the stress all new parents face, whether it is their first child or their fourth.' },
+];
+const related = services.filter((s) => ['Newborn Care', 'Pediatrics', 'Same-Day Visits'].includes(s.title));
+---
+<PageLayout
+  title={title}
+  description={description}
+  image={images.meetGreetHero}
+>
+  <!-- HERO -->
+  <section class="relative overflow-hidden bg-gradient-to-br from-forest via-forest to-ink px-5 pb-28 pt-44 text-cream md:px-10 md:pb-40 md:pt-56">
+    <Aura tone="dark" rich />
+    <div class="relative z-10 mx-auto grid max-w-[1400px] items-center gap-12 lg:grid-cols-[1.2fr_1fr]">
+      <div>
+      <Reveal client:load>
+        <nav class="text-xs uppercase tracking-[.2em] text-cream/60" aria-label="Breadcrumb">
+          <a href="/" class="hover:text-sprout">Home</a><span class="mx-2">/</span><span>Services</span><span class="mx-2">/</span><span>Newborn care</span><span class="mx-2">/</span>{location ? <a href={BASE} class="hover:text-sprout">Meet &amp; Greet</a> : <span class="text-cream">Meet &amp; Greet</span>}{location && <><span class="mx-2">/</span><span class="text-cream">{location.label}</span></>}
+        </nav>
+      </Reveal>
+      <Reveal client:load delay={0.1}>
+        <h1 class="mt-8 max-w-4xl font-display text-5xl leading-[1.05] md:text-7xl">{location ? <>Meet &amp; greet in <em class="text-sprout">{location.label}.</em></> : <>Expecting parents, <em class="text-sprout">meet &amp; greet.</em></>}</h1>
+      </Reveal>
+      <Reveal client:load delay={0.2}>
+        <p class="mt-8 max-w-2xl text-lg leading-relaxed text-cream/80 md:text-xl">A complimentary visit to meet your provider before your baby is born.</p>
+      </Reveal>
+      <Reveal client:load delay={0.3}>
+        <div class="mt-12 max-w-4xl border-t border-cream/20 pt-8">
+          <p class="flex items-start gap-4 text-base font-light leading-relaxed text-cream/70 md:text-lg">
+            <svg class="mt-1 h-6 w-6 shrink-0 text-sprout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+            <span>{location ? location.nearby : 'Patients are welcome from across Portland, Beaverton and the greater Portland Metro area.'}</span>
+          </p>
+        </div>
+      </Reveal>
+      </div>
+      <Reveal client:load kind="mask">
+        <div class="overflow-hidden rounded-3xl shadow-[0_50px_100px_-40px_rgba(0,0,0,.7)] ring-1 ring-cream/15">
+          <img src={images.meetGreetHero} alt="" class="aspect-[5/4] w-full object-cover transition-transform duration-[1200ms] hover:scale-105" />
+        </div>
+      </Reveal>
+    </div>
+  </section>
+
+  <!-- INTRO -->
+  <section class="relative overflow-hidden bg-cream px-5 py-28 md:px-10 md:py-40">
+    <Aura tone="light" rich leaves={false} />
+    <div class="relative z-10 mx-auto max-w-4xl text-center">
+      <Reveal client:visible><p class="eyebrow justify-center text-olive">Newborn care</p></Reveal>
+      <Reveal client:visible delay={0.1}>
+        <h2 class="mt-6 font-display text-4xl leading-[1.1] text-forest md:text-6xl">Congratulations on your upcoming <em class="text-maroon">addition to your family!</em></h2>
+      </Reveal>
+      <Reveal client:visible delay={0.2}>
+        <p class="mx-auto mt-10 max-w-3xl text-lg leading-relaxed text-ink/75">The best approach to securing high-quality newborn care is to begin meeting with doctors even before the late stages of pregnancy. This complimentary service gives you time to meet with your provider and learn more about their approach to newborn and pediatric care.</p>
+        <p class="mx-auto mt-5 max-w-3xl leading-relaxed text-ink/70">When you choose a doctor well in advance of your child’s birth, you can begin building a trusting relationship with the professional who will guide your baby’s health and wellness.</p>
+        <p class="mx-auto mt-5 max-w-3xl leading-relaxed text-ink/70">That can go a long way toward reducing the stress that all new parents face, whether it is their first or fourth child.</p>
+      </Reveal>
+      <Reveal client:visible delay={0.3}>
+        <div class="mt-10 flex flex-wrap justify-center gap-3">
+          <a href={site.portalUrl} target="_blank" rel="noopener" class="btn btn-dark">Patient Portal <span class="arrow">→</span></a>
+          <a href={site.phoneHref} class="btn btn-line">Call {site.phone}</a>
+        </div>
+      </Reveal>
+    </div>
+  </section>
+
+  <!-- WHY MEET EARLY -->
+  <section class="relative overflow-hidden bg-forest px-5 py-24 text-cream md:px-10 md:py-32">
+    <Aura tone="dark" rich leaves={false} />
+    <div class="relative z-10 mx-auto max-w-[1400px]">
+      <Reveal client:visible><p class="eyebrow text-sprout">Why meet early</p></Reveal>
+      <Reveal client:visible delay={0.1}><h2 class="mt-6 max-w-3xl font-display text-4xl leading-[1.1] md:text-6xl">A calm start for <em class="text-sprout">you and your baby.</em></h2></Reveal>
+      <div class="mt-14 grid gap-5 md:grid-cols-3">
+        {reasons.map((r, i) => (
+          <Reveal client:visible kind="zoom" delay={i * 0.1}>
+            <div class="h-full rounded-3xl border border-cream/15 bg-cream/5 p-8 backdrop-blur transition-all duration-500 hover:-translate-y-2 hover:bg-cream/10">
+              <span class="font-display text-4xl text-sprout">{r.n}</span>
+              <h3 class="mt-5 font-display text-2xl">{r.t}</h3>
+              <p class="mt-3 leading-relaxed text-cream/70">{r.d}</p>
+            </div>
+          </Reveal>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <ServiceLocations base={BASE} serviceName="Newborn Meet & Greet" locations={pediatricLocations} current={location?.slug} />
+
+  <!-- RELATED SERVICES -->
+  <section class="relative overflow-hidden bg-sand px-5 py-24 md:px-10 md:py-32">
+    <div class="relative z-10 mx-auto max-w-[1400px]">
+      <Reveal client:visible><p class="eyebrow text-olive">Our services</p></Reveal>
+      <Reveal client:visible delay={0.1}><h2 class="mt-6 font-display text-4xl text-forest md:text-5xl">More care for <em class="text-maroon">your little one.</em></h2></Reveal>
+      <div class="mt-12 grid gap-6 md:grid-cols-3">
+        {related.map((s, i) => (
+          <Reveal client:visible delay={i * 0.1}>
+            <a href={s.href} class="group block overflow-hidden rounded-3xl bg-cream shadow-[0_30px_60px_-35px_rgba(36,48,16,.5)] transition-all duration-500 hover:-translate-y-2">
+              <div class="aspect-[4/3] overflow-hidden"><img src={images.services[s.img]} alt={s.title} loading="lazy" class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" /></div>
+              <div class="p-7">
+                <h3 class="font-display text-2xl text-forest">{s.title}</h3>
+                <p class="mt-2 text-sm leading-relaxed text-ink/70">{s.text}</p>
+                <span class="mt-4 inline-block text-xs font-semibold uppercase tracking-[.2em] text-maroon">Learn more →</span>
+              </div>
+            </a>
+          </Reveal>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Contact />
+</PageLayout>

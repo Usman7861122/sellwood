@@ -1,0 +1,10 @@
+---
+import MeetGreetPage from '../../../../components/services/MeetGreetPage.astro';
+import { pediatricLocations } from '../../../../data/site';
+
+export function getStaticPaths() {
+  return pediatricLocations.map((location) => ({ params: { location: location.slug }, props: { location } }));
+}
+const { location } = Astro.props;
+---
+<MeetGreetPage location={location} />

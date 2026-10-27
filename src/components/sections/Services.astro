@@ -1,0 +1,40 @@
+---
+import Reveal from '../../islands/Reveal';
+import Aura from '../ui/Aura.astro';
+import { images } from '../../data/images';
+import { services, site } from '../../data/site';
+---
+<section id="services" class="relative overflow-hidden bg-forest px-5 py-28 text-cream md:px-10 md:py-36">
+  <Aura tone="dark" />
+  <div class="relative z-10 mx-auto max-w-[1400px]">
+    <div class="flex flex-col justify-between gap-8 md:flex-row md:items-end">
+      <div>
+        <Reveal client:visible><p class="eyebrow text-sprout">Our services</p></Reveal>
+        <Reveal client:visible delay={0.1}>
+          <h2 class="mt-6 max-w-2xl font-display text-4xl leading-[1.1] md:text-6xl">Complete care, <em class="text-sprout">under one roof.</em></h2>
+        </Reveal>
+      </div>
+      <Reveal client:visible delay={0.2}>
+        <a href={`${site.old}/services/`} class="btn btn-ghost">View more services <span class="arrow">→</span></a>
+      </Reveal>
+    </div>
+
+    <div class="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {services.map((s, i) => (
+        <Reveal client:visible delay={(i % 3) * 0.12}>
+          <a href={s.href} class="group relative block aspect-[4/5] overflow-hidden rounded-3xl">
+            <img src={images.services[s.img]} alt={s.title} loading="lazy" class="absolute inset-0 h-full w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-110" />
+            <div class="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/30 to-transparent transition-opacity duration-500"></div>
+            <div class="absolute inset-0 bg-olive/0 transition-colors duration-500 group-hover:bg-olive/25"></div>
+            <span class="absolute left-6 top-6 font-display text-sm text-white/70">0{i + 1}</span>
+            <div class="absolute inset-x-0 bottom-0 p-7">
+              <h3 class="font-display text-3xl">{s.title}</h3>
+              <p class="mt-3 max-h-24 overflow-hidden text-sm leading-relaxed text-cream/80 opacity-100 transition-all duration-500 md:max-h-0 md:opacity-0 md:group-hover:max-h-24 md:group-hover:opacity-100">{s.text}</p>
+              <span class="mt-5 inline-flex items-center gap-2 text-[.72rem] font-semibold uppercase tracking-[.2em] text-sprout">Read more <span class="transition-transform duration-500 group-hover:translate-x-2">→</span></span>
+            </div>
+          </a>
+        </Reveal>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,16 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Header from '../islands/Header';
+import Footer from '../components/layout/Footer.astro';
+import MobileBar from '../components/layout/MobileBar.astro';
+import ScrollProgress from '../islands/ScrollProgress';
+
+interface Props { title: string; description?: string; image?: string; noindex?: boolean }
+---
+<BaseLayout {...Astro.props}>
+  <ScrollProgress client:load />
+  <Header client:load />
+  <main><slot /></main>
+  <Footer />
+  <MobileBar />
+</BaseLayout>

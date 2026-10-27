@@ -1,0 +1,22 @@
+---
+import Reveal from '../../islands/Reveal';
+import { images } from '../../data/images';
+const alts = ['2022 award', '2023 award', '2024 award', '2025 winner', '2026 award', '2026 nominee'];
+---
+<section id="achievements" class="relative overflow-hidden bg-sand px-5 py-24 md:px-10">
+  <div class="relative z-10 mx-auto max-w-[1400px] text-center">
+    <Reveal client:visible><p class="eyebrow text-olive">Achievements</p></Reveal>
+    <Reveal client:visible delay={0.1}>
+      <h2 class="mx-auto mt-6 max-w-2xl font-display text-4xl text-forest md:text-5xl">Recognized by the families we serve.</h2>
+    </Reveal>
+    <div class="mt-14 grid grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-6">
+      {images.awards.map((src, i) => (
+        <Reveal client:visible kind="zoom" delay={i * 0.08}>
+          <div class="group aspect-square rounded-3xl border border-forest/10 bg-cream/70 p-5 backdrop-blur transition-all duration-500 hover:-translate-y-2 hover:rotate-1 hover:bg-white hover:shadow-[0_30px_60px_-25px_rgba(36,48,16,.5)]">
+            <img src={src} alt={alts[i]} loading="lazy" class="h-full w-full object-contain transition-transform duration-700 group-hover:scale-110" />
+          </div>
+        </Reveal>
+      ))}
+    </div>
+  </div>
+</section>

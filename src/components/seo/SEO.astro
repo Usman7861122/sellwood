@@ -1,0 +1,13 @@
+---
+interface Props { title: string; description?: string; image?: string; noindex?: boolean }
+const { title, description = '', image, noindex = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+<title>{title}</title>
+{description && <meta name="description" content={description} />}
+<link rel="canonical" href={canonical} />
+{noindex && <meta name="robots" content="noindex" />}
+<meta property="og:title" content={title} />
+{description && <meta property="og:description" content={description} />}
+{image && <meta property="og:image" content={image} />}
+<meta property="og:url" content={canonical} />

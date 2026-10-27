@@ -1,0 +1,49 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import Reveal from '../../islands/Reveal';
+import Aura from '../../components/ui/Aura.astro';
+import Contact from '../../components/sections/Contact.astro';
+import { providerPages } from '../../data/providerPages';
+
+const groups = [
+  { id: 'pediatrics', title: 'Pediatrics', list: providerPages.filter((p) => p.kind === 'ped') },
+  { id: 'adult', title: 'Family practice and gynecology', list: providerPages.filter((p) => p.kind !== 'ped') },
+];
+---
+<PageLayout title="Our Providers | Sellwood Medical Clinic in Portland, OR" description="Meet the pediatricians, nurse practitioners, physician assistants, internist and gynecologist at Sellwood Medical Clinic in Portland and Beaverton, Oregon.">
+  <section class="relative overflow-hidden bg-gradient-to-br from-forest via-forest to-ink px-5 pb-24 pt-44 text-cream md:px-10 md:pb-32 md:pt-56">
+    <Aura tone="dark" rich />
+    <div class="relative z-10 mx-auto max-w-[1400px]">
+      <Reveal client:load><p class="eyebrow text-sprout">Providers</p></Reveal>
+      <Reveal client:load delay={0.1}><h1 class="mt-5 max-w-4xl font-display text-5xl leading-[1.05] md:text-7xl">Meet our <em class="text-sprout">providers.</em></h1></Reveal>
+      <Reveal client:load delay={0.2}><p class="mt-8 max-w-2xl text-lg text-cream/80">{providerPages.length} caring clinicians across Portland and Beaverton, here for every member of your family.</p></Reveal>
+      <Reveal client:load delay={0.3}>
+        <div class="mt-10 flex flex-wrap gap-3">
+          {groups.map((g) => <a href={`#${g.id}`} class="rounded-lg border border-cream/30 px-4 py-2 text-xs font-semibold uppercase tracking-[.16em] text-cream transition-all duration-300 hover:-translate-y-0.5 hover:border-sprout hover:bg-sprout hover:text-forest">{g.title}</a>)}
+        </div>
+      </Reveal>
+    </div>
+  </section>
+  {groups.map((g, gi) => (
+    <section id={g.id} class={`relative scroll-mt-40 overflow-hidden px-5 py-20 md:px-10 md:py-28 ${gi % 2 ? 'bg-sand' : 'bg-cream'}`}>
+      <div class="relative z-10 mx-auto max-w-[1400px]">
+        <Reveal client:visible><h2 class="font-display text-4xl text-forest md:text-5xl">{g.title}</h2></Reveal>
+        <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {g.list.map((p, i) => (
+            <Reveal client:visible delay={(i % 4) * 0.07}>
+              <a href={`/providers/${p.slug}/`} class="group block h-full overflow-hidden rounded-3xl bg-white/80 shadow-[0_30px_60px_-35px_rgba(36,48,16,.5)] transition-all duration-500 hover:-translate-y-2">
+                <div class="aspect-[4/5] overflow-hidden bg-forest/5"><img src={p.photo} alt={`${p.name}, ${p.creds}`} loading="lazy" class="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105" /></div>
+                <div class="p-6">
+                  <h3 class="font-display text-xl text-forest">{p.name}, {p.creds}</h3>
+                  <p class="mt-1 text-sm text-ink/70">{p.role}</p>
+                  <span class="mt-4 inline-block text-xs font-semibold uppercase tracking-[.2em] text-maroon">View profile →</span>
+                </div>
+              </a>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  ))}
+  <Contact />
+</PageLayout>

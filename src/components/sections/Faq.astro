@@ -1,0 +1,20 @@
+---
+import Reveal from '../../islands/Reveal';
+import FaqList from '../../islands/Faq';
+import { faqs, site } from '../../data/site';
+---
+<section id="faq" class="relative overflow-hidden bg-cream px-5 py-28 md:px-10 md:py-36">
+  <div class="relative z-10 mx-auto grid max-w-[1400px] gap-16 lg:grid-cols-[1fr_1.5fr]">
+    <div class="lg:sticky lg:top-32 lg:self-start">
+      <Reveal client:visible><p class="eyebrow text-olive">Frequently asked</p></Reveal>
+      <Reveal client:visible delay={0.1}>
+        <h2 class="mt-6 font-display text-4xl leading-[1.1] text-forest md:text-6xl">Good questions, <em class="text-maroon">clear answers.</em></h2>
+      </Reveal>
+      <Reveal client:visible delay={0.2}>
+        <p class="mt-6 text-ink/70">Can’t find what you need? Our team is happy to help.</p>
+        <a href={site.phoneHref} class="btn btn-dark mt-8">Call {site.phone}</a>
+      </Reveal>
+    </div>
+    <Reveal client:visible kind="right"><FaqList client:visible items={faqs} /></Reveal>
+  </div>
+</section>

@@ -1,0 +1,33 @@
+---
+// Slow moving glow. Default = one calm green tone. `rich` = fuller glow with dots and floating leaf drops.
+interface Props { tone?: 'light' | 'dark'; rich?: boolean; leaves?: boolean }
+const { tone = 'light', rich = false, leaves = rich } = Astro.props;
+
+const calm = tone === 'light'
+  ? [['var(--color-leaf)', '40vw', '-10%', '-8%', '.2'], ['var(--color-sprout)', '30vw', '62%', '45%', '.2']]
+  : [['var(--color-olive)', '44vw', '-10%', '-12%', '.4'], ['var(--color-moss)', '36vw', '60%', '40%', '.5']];
+
+const full = tone === 'light'
+  ? [
+      ['var(--color-sprout)', '38vw', '-8%', '-10%', '.35'],
+      ['var(--color-sand)', '30vw', '60%', '8%', '.6'],
+      ['var(--color-maroon)', '16vw', '20%', '64%', '.22'],
+      ['var(--color-leaf)', '34vw', '70%', '55%', '.3'],
+    ]
+  : [
+      ['var(--color-olive)', '42vw', '-10%', '-12%', '.45'],
+      ['var(--color-moss)', '34vw', '62%', '10%', '.5'],
+      ['var(--color-maroon)', '24vw', '18%', '62%', '.3'],
+      ['var(--color-leaf)', '18vw', '72%', '60%', '.3'],
+    ];
+
+const blobs = rich ? full : calm;
+const dropColors = ['var(--color-olive)', 'var(--color-leaf)', 'var(--color-sprout)', 'var(--color-maroon)', 'var(--color-olive)', 'var(--color-sprout)'];
+---
+<div class="aura" aria-hidden="true">
+  {blobs.map(([c, s, l, t, o]) => <i style={`background:${c};width:${s};height:${s};left:${l};top:${t};opacity:${o}`}></i>)}
+  {rich && <div class={`dots ${tone === 'dark' ? 'dots-light' : ''}`}></div>}
+  {leaves && dropColors.map((c, i) => (
+    <span class="leafdrop" style={`background:${c};left:${8 + i * 16}%;bottom:-30px;animation-delay:${-i * 3.1}s;animation-duration:${16 + i * 2.5}s`}></span>
+  ))}
+</div>

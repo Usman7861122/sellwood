@@ -1,0 +1,42 @@
+---
+import Reveal from '../../islands/Reveal';
+import Parallax from '../../islands/Parallax';
+import Aura from '../ui/Aura.astro';
+import { images } from '../../data/images';
+import { safety } from '../../data/site';
+---
+<section id="why" class="relative overflow-hidden bg-sand px-5 py-28 md:px-10 md:py-36">
+  <Aura tone="light" rich />
+  <div class="relative z-10 mx-auto grid max-w-[1400px] items-center gap-16 lg:grid-cols-2">
+    <div>
+      <Reveal client:visible><p class="eyebrow text-olive">Why choose us</p></Reveal>
+      <Reveal client:visible delay={0.1}>
+        <h2 class="mt-6 font-display text-4xl leading-[1.1] text-forest md:text-6xl">Your family’s <em class="text-maroon">safety</em> comes first.</h2>
+      </Reveal>
+      <Reveal client:visible delay={0.2}>
+        <p class="mt-6 max-w-xl text-ink/70">We keep strict, ongoing hygiene and infection control standards to protect our patients and our team.</p>
+      </Reveal>
+      <div class="mt-10 grid gap-4">
+        {safety.map((s, i) => (
+          <Reveal client:visible kind="left" delay={0.1 + i * 0.12}>
+            <div class="group flex gap-5 rounded-2xl border border-forest/10 bg-cream/80 p-6 backdrop-blur transition-all duration-500 hover:-translate-y-1 hover:bg-white hover:shadow-[0_25px_50px_-25px_rgba(36,48,16,.45)]">
+              <span class="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-forest font-display text-lg text-sprout transition-transform duration-500 group-hover:rotate-6">0{i + 1}</span>
+              <div>
+                <h3 class="font-display text-xl text-forest">{s.title}</h3>
+                <p class="mt-1 text-sm leading-relaxed text-ink/70">{s.text}</p>
+              </div>
+            </div>
+          </Reveal>
+        ))}
+      </div>
+      <Reveal client:visible delay={0.2}>
+        <p class="mt-8 text-sm text-ink/60">Need accommodations? Tell us when you book. General guidance: <a class="underline decoration-olive underline-offset-4 hover:text-olive" href="https://www.oregon.gov/oha" target="_blank" rel="noopener">Oregon Health Authority</a> · <a class="underline decoration-olive underline-offset-4 hover:text-olive" href="https://www.cdc.gov/" target="_blank" rel="noopener">CDC</a></p>
+      </Reveal>
+    </div>
+    <Reveal client:visible kind="mask">
+      <Parallax client:visible amount={40} className="aspect-[4/5] rounded-3xl shadow-[0_50px_100px_-40px_rgba(36,48,16,.55)]">
+        <img src={images.whyChoose} alt="A family draws together at a table with their toddler" loading="lazy" class="h-full w-full object-cover" />
+      </Parallax>
+    </Reveal>
+  </div>
+</section>

@@ -1,0 +1,34 @@
+---
+import Reveal from '../../islands/Reveal';
+import { images } from '../../data/images';
+import { providers, site } from '../../data/site';
+---
+<section id="providers" class="relative overflow-hidden bg-forest py-28 text-cream md:py-36">
+  <div class="relative z-10 mx-auto max-w-[1400px] px-5 md:px-10">
+    <div class="flex flex-col justify-between gap-8 md:flex-row md:items-end">
+      <div>
+        <Reveal client:visible><p class="eyebrow text-sprout">Choose your provider</p></Reveal>
+        <Reveal client:visible delay={0.1}>
+          <h2 class="mt-6 font-display text-4xl leading-[1.1] md:text-6xl">Meet the people <em class="text-sprout">caring for you.</em></h2>
+        </Reveal>
+      </div>
+      <Reveal client:visible delay={0.2}><a href={`${site.old}/providers/`} class="btn btn-ghost">View more providers <span class="arrow">→</span></a></Reveal>
+    </div>
+  </div>
+
+  <div class="no-scrollbar relative z-10 mt-14 flex snap-x snap-mandatory gap-6 overflow-x-auto px-5 pb-6 md:px-10">
+    {providers.map((p, i) => (
+      <a href={p.href} class="group relative w-[78vw] shrink-0 snap-start sm:w-80">
+        <div class="relative aspect-[3/4] overflow-hidden rounded-3xl bg-gradient-to-b from-moss to-ink ring-1 ring-white/10 transition-all duration-500 group-hover:-translate-y-2 group-hover:ring-sprout/60">
+          <span class="absolute -right-10 -top-10 h-44 w-44 rounded-full opacity-40 blur-2xl transition-opacity duration-500 group-hover:opacity-80" style={`background:${['var(--color-olive)','var(--color-maroon)','var(--color-leaf)','var(--color-maroon)','var(--color-olive)'][i]}`}></span>
+          <img src={images.providers[p.img]} alt={`${p.name}, ${p.creds}`} loading="lazy" class="relative h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105" />
+        </div>
+        <div class="mt-5">
+          <h3 class="font-display text-2xl">{p.name}</h3>
+          <p class="mt-1 text-sm text-cream/70">{p.creds} · {p.role}</p>
+          <span class="mt-3 inline-flex items-center gap-2 text-[.72rem] font-semibold uppercase tracking-[.2em] text-sprout">Learn more <span class="transition-transform duration-500 group-hover:translate-x-2">→</span></span>
+        </div>
+      </a>
+    ))}
+  </div>
+</section>
