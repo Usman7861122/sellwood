@@ -1,0 +1,20 @@
+---
+type Block = [string, string];
+interface Props { blocks: Block[] }
+const { blocks } = Astro.props;
+// group consecutive li items into one list
+const out: { t: string; v: string[] }[] = [];
+for (const [t, v] of blocks) {
+  const last = out[out.length - 1];
+  if ((t === 'li') && last?.t === 'li') last.v.push(v); else out.push({ t, v: [v] });
+}
+---
+<div class="prose-sell">
+  {out.map((b) =>
+    b.t === 'h' ? <h2 class="mt-12 font-display text-3xl leading-tight text-forest md:text-4xl">{b.v[0]}</h2>
+    : b.t === 'li' ? <ul class="mt-5 grid gap-2 pl-5 text-ink/75 [&>li]:list-disc [&>li]:leading-relaxed">{b.v.map((x) => <li>{x}</li>)}</ul>
+    : b.t === 'q' ? <blockquote class="mt-8 border-l-4 border-olive bg-sand/60 p-6 font-display text-xl italic text-forest">{b.v[0]}</blockquote>
+    : b.t === 'a' ? <p class="mt-5"><a href={b.v[0].split('|')[1]} class="btn btn-dark" {...(b.v[0].split('|')[1]?.startsWith('http') ? { target: '_blank', rel: 'noopener' } : {})}>{b.v[0].split('|')[0]} <span class="arrow">→</span></a></p>
+    : <p class="mt-5 text-lg leading-relaxed text-ink/75">{b.v[0]}</p>
+  )}
+</div>

@@ -1,0 +1,30 @@
+---
+import Reveal from '../../islands/Reveal';
+import Aura from './Aura.astro';
+interface Props { eyebrow?: string; title: string; intro?: string; crumbs?: { label: string; href?: string }[]; image?: string; imageAlt?: string }
+const { eyebrow, title, intro, crumbs = [], image, imageAlt = '' } = Astro.props;
+---
+<section class="relative overflow-hidden bg-gradient-to-br from-forest via-forest to-ink px-5 pb-24 pt-44 text-cream md:px-10 md:pb-28 md:pt-52">
+  <Aura tone="dark" rich />
+  <div class={`relative z-10 mx-auto grid max-w-[1400px] items-center gap-12 ${image ? 'lg:grid-cols-[1.2fr_1fr]' : ''}`}>
+    <div>
+      <Reveal client:load>
+        <nav class="text-xs uppercase tracking-[.2em] text-cream/60" aria-label="Breadcrumb">
+          <a href="/" class="hover:text-sprout">Home</a>
+          {crumbs.map((c) => <><span class="mx-2">/</span>{c.href ? <a href={c.href} class="hover:text-sprout">{c.label}</a> : <span class="text-cream">{c.label}</span>}</>)}
+        </nav>
+      </Reveal>
+      {eyebrow && <Reveal client:load delay={0.1}><p class="eyebrow mt-10 text-sprout">{eyebrow}</p></Reveal>}
+      <Reveal client:load delay={0.15}><h1 class="mt-5 max-w-4xl font-display text-5xl leading-[1.05] md:text-7xl">{title}</h1></Reveal>
+      {intro && <Reveal client:load delay={0.25}><p class="mt-8 max-w-2xl text-lg leading-relaxed text-cream/80">{intro}</p></Reveal>}
+      <slot />
+    </div>
+    {image && (
+      <Reveal client:load kind="mask">
+        <div class="overflow-hidden rounded-3xl shadow-[0_50px_100px_-40px_rgba(0,0,0,.7)]">
+          <img src={image} alt={imageAlt} class="aspect-[4/3] w-full object-cover" />
+        </div>
+      </Reveal>
+    )}
+  </div>
+</section>

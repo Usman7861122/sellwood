@@ -1,5 +1,28 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
-export function getStaticPaths() { return []; }
+import PageHero from '../../components/ui/PageHero.astro';
+import Blocks from '../../components/ui/Blocks.astro';
+import Aura from '../../components/ui/Aura.astro';
+import Contact from '../../components/sections/Contact.astro';
+import posts from '../../data/blogPosts.json';
+import { site } from '../../data/site';
+export function getStaticPaths() {
+  return (posts as any[]).map((p) => ({ params: { slug: p.slug }, props: { p } }));
+}
+const { p } = Astro.props;
+const fmt = (d: string) => d ? new Date(d + 'T00:00:00').toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : '';
 ---
-<PageLayout title="TODO"><slot /></PageLayout>
+<PageLayout title={`${p.title} | Sellwood Medical Clinic`} description={p.excerpt} image={p.image || undefined}>
+  <PageHero eyebrow={[p.category, fmt(p.date)].filter(Boolean).join(' · ') || 'Blog'} title={p.title} crumbs={[{ label: 'Blog', href: '/blog/' }, { label: 'Article' }]} image={p.image || undefined} imageAlt={p.title} />
+  <section class="relative overflow-hidden bg-cream px-5 py-20 md:px-10 md:py-28">
+    <Aura tone="light" rich leaves={false} />
+    <article class="relative z-10 mx-auto max-w-3xl">
+      <Blocks blocks={p.blocks} />
+      <div class="mt-14 flex flex-wrap gap-3">
+        <a href={site.bookingUrl} target="_blank" rel="noopener" class="btn btn-dark">Book a visit <span class="arrow">→</span></a>
+        <a href="/blog/" class="btn btn-line">← All articles</a>
+      </div>
+    </article>
+  </section>
+  <Contact />
+</PageLayout>

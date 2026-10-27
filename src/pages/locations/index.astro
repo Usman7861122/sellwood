@@ -1,0 +1,30 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/ui/PageHero.astro';
+import Aura from '../../components/ui/Aura.astro';
+import Reveal from '../../islands/Reveal';
+import Contact from '../../components/sections/Contact.astro';
+import { locationPages } from '../../data/locationPages';
+---
+<PageLayout title="Our Locations | Sellwood Medical Clinic in Portland and Beaverton, OR" description="Find a Sellwood Medical Clinic office in Sellwood, North Portland or Beaverton, Oregon. See hours, providers, services and directions.">
+  <PageHero eyebrow="Locations" title="Offices close to home." intro="Pediatrics, adult medicine and gynecology across Portland and Beaverton." crumbs={[{ label: 'Locations' }]} />
+  <section class="relative overflow-hidden bg-cream px-5 py-20 md:px-10 md:py-28">
+    <Aura tone="light" rich leaves={false} />
+    <div class="relative z-10 mx-auto grid max-w-[1400px] gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {locationPages.map((l, i) => (
+        <Reveal client:visible delay={(i % 4) * 0.07}>
+          <a href={`/locations/${l.slug}/`} class="group flex h-full flex-col overflow-hidden rounded-3xl bg-white/80 shadow-[0_30px_60px_-35px_rgba(36,48,16,.5)] transition-all duration-500 hover:-translate-y-2">
+            <div class="aspect-[4/3] overflow-hidden bg-forest/5"><img src={l.hero} alt={l.name} loading="lazy" class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" /></div>
+            <div class="flex flex-1 flex-col p-6">
+              <h2 class="font-display text-xl text-forest">{l.name}</h2>
+              <p class="mt-2 text-sm text-ink/70">{l.address}<br />{l.city}</p>
+              <p class="mt-1 text-sm text-ink/70">{l.phone}</p>
+              <span class="mt-auto pt-5 text-xs font-semibold uppercase tracking-[.2em] text-maroon">View office →</span>
+            </div>
+          </a>
+        </Reveal>
+      ))}
+    </div>
+  </section>
+  <Contact />
+</PageLayout>

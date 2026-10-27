@@ -1,0 +1,28 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import PageHero from '../components/ui/PageHero.astro';
+import Blocks from '../components/ui/Blocks.astro';
+import Aura from '../components/ui/Aura.astro';
+import Contact from '../components/sections/Contact.astro';
+import data from '../data/pages.json';
+import { site } from '../data/site';
+
+export function getStaticPaths() {
+  return (data as any[]).map((p) => ({ params: { info: p.path.replace(/^\/|\/$/g, '') }, props: { p } }));
+}
+const { p } = Astro.props;
+---
+<PageLayout title={p.seo ?? `${p.title} | Sellwood Medical Clinic`} description={p.description}>
+  <PageHero title={p.title} intro={p.intro} crumbs={[{ label: p.title }]} />
+  <section class="relative overflow-hidden bg-cream px-5 py-20 md:px-10 md:py-28">
+    <Aura tone="light" rich leaves={false} />
+    <div class="relative z-10 mx-auto max-w-3xl">
+      <Blocks blocks={p.blocks} />
+      <div class="mt-14 flex flex-wrap gap-3">
+        <a href={site.phoneHref} class="btn btn-dark">Call {site.phone}</a>
+        <a href={site.portalUrl} target="_blank" rel="noopener" class="btn btn-line">Patient Portal</a>
+      </div>
+    </div>
+  </section>
+  <Contact />
+</PageLayout>
