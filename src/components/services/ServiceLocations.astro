@@ -52,11 +52,11 @@ const q = active ? encodeURIComponent(`${active.address}, ${active.city}`) : '';
             <p class="mt-1 text-sm text-ink/60">{l.full}</p>
             <p class="mt-5 text-sm leading-relaxed text-ink/75">{l.address}<br />{l.city}</p>
             <p class="mt-2 text-sm text-ink/75">{site.phone}</p>
-            <span class="mt-auto pt-6 text-xs font-semibold uppercase tracking-[.2em] text-maroon transition-transform duration-300 group-hover:translate-x-1">View this location →</span>
+            <span class="mt-auto inline-flex pt-6"><span class="btn btn-sm btn-line">View this location <span class="arrow">→</span></span></span>
           </a>
         </Reveal>
       ))}
     </div>
-    {active && <p class="mt-8"><a href={base} class="text-sm font-semibold uppercase tracking-[.2em] text-forest hover:text-maroon">← All locations</a></p>}
+    {active && <p class="mt-8"><a href={base} class="btn btn-sm btn-line">← All locations</a></p>}
   </div>
 </section>

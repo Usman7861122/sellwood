@@ -20,7 +20,7 @@ import { posts, site } from '../../data/site';
               <img src={images.blog[p.img]} alt="" loading="lazy" class="h-full w-full object-cover transition-transform duration-[1200ms] group-hover:scale-110" />
             </div>
             <h3 class="mt-6 font-display text-2xl leading-snug text-forest transition-colors duration-300 group-hover:text-olive">{p.title}</h3>
-            <span class="mt-4 inline-flex items-center gap-2 text-[.72rem] font-semibold uppercase tracking-[.2em] text-olive">Learn more <span class="transition-transform duration-500 group-hover:translate-x-2">→</span></span>
+            <span class="mt-4 inline-flex"><span class="btn btn-sm btn-line">Learn more <span class="arrow">→</span></span></span>
           </a>
         </Reveal>
       ))}
