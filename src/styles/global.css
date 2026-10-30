@@ -139,3 +139,18 @@ body {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
 }
+
+/* ---------- Theme: "ocean" (Home 2 only): blue #2591CF, pink #D6488C, white ---------- */
+:root:has(.theme-ocean) {
+  --color-ink: #0a2236;
+  --color-forest: #0e3b5e;
+  --color-moss: #17588a;
+  --color-olive: #2591cf;
+  --color-leaf: #2591cf;
+  --color-maroon: #d6488c;
+  --color-cream: #ffffff;
+  --color-sand: #eaf4fb;
+  --color-sprout: #7cc1ec;
+}
+:root:has(.theme-ocean) .dots, :root:has(.theme-ocean) [class*="dots"] { --dot: rgba(14,59,94,.14); }
+:root:has(.theme-ocean) header a.bg-sprout.text-ink { background: #2591cf; color: #fff; }
