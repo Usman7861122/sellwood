@@ -82,7 +82,7 @@ export const menu: MenuItem[] = [
           ],
         },
         {
-          title: 'More care',
+          title: 'Adult Medicine',
           links: [
             L('Family Medicine Clinic', '/services/family-medicine-clinic/'),
             L('Gynecology', '/services/gynecology/'),
