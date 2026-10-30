@@ -142,15 +142,16 @@ body {
 
 /* ---------- Theme: "ocean" (Home 2 only): blue #2591CF, pink #D6488C, white ---------- */
 :root:has(.theme-ocean) {
-  --color-ink: #0a2236;
-  --color-forest: #0e3b5e;
-  --color-moss: #17588a;
+  --color-ink: #0c3350;
+  --color-forest: #2591cf;
+  --color-moss: #1d78b0;
   --color-olive: #2591cf;
   --color-leaf: #2591cf;
   --color-maroon: #d6488c;
   --color-cream: #ffffff;
   --color-sand: #eaf4fb;
-  --color-sprout: #7cc1ec;
+  --color-sprout: #e3f3fc;
 }
 :root:has(.theme-ocean) .dots, :root:has(.theme-ocean) [class*="dots"] { --dot: rgba(14,59,94,.14); }
-:root:has(.theme-ocean) header a.bg-sprout.text-ink { background: #2591cf; color: #fff; }
+:root:has(.theme-ocean) header a.bg-sprout.text-ink { background: #fff; color: #2591cf; }
+:root:has(.theme-ocean) header a.bg-olive.text-cream { background: #1d78b0; }
