@@ -1,0 +1,41 @@
+name: Deploy to S3
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build
+
+      - name: Upload to S3
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
+          S3_BUCKET: ${{ secrets.S3_BUCKET }}
+        run: |
+          # Hashed build files never change: cache for a year
+          aws s3 sync dist/_astro "s3://$S3_BUCKET/_astro" \
+            --cache-control "public,max-age=31536000,immutable"
+          # Everything else: always check for a fresh copy
+          aws s3 sync dist "s3://$S3_BUCKET" --delete --exclude "_astro/*" \
+            --cache-control "public,max-age=0,must-revalidate"
