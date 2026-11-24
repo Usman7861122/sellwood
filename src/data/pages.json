@@ -593,6 +593,10 @@
   "intro": "Check that we are in-network with your plan.",
   "blocks": [
    [
+    "n",
+    "Medicaid is changing in 2027. Please click the link below for more information.|Learn about 2027 Medicaid changes|https://one.oregon.gov/"
+   ],
+   [
     "p",
     "This announcement was sent to pediatric patients in December 2019 for the 2020 open enrollment. Please call 503-595-9300 to confirm current plan details."
    ],
@@ -625,6 +629,10 @@
   "description": "Insurance accepted at Sellwood Medical Clinic in Portland and Beaverton, Oregon.",
   "intro": "We accept most major insurance plans.",
   "blocks": [
+   [
+    "n",
+    "Medicaid is changing in 2027. Please click the link below for more information.|Learn about 2027 Medicaid changes|https://one.oregon.gov/"
+   ],
    [
     "h",
     "Accepted insurances"
