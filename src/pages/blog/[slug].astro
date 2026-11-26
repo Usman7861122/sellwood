@@ -12,7 +12,7 @@ export function getStaticPaths() {
 const { p } = Astro.props;
 const fmt = (d: string) => d ? new Date(d + 'T00:00:00').toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : '';
 ---
-<PageLayout type="article" title={`${p.title} | Sellwood Medical Clinic`} description={p.excerpt} image={p.image || undefined} jsonld={[{ '@context': 'https://schema.org', '@type': 'BlogPosting', headline: p.title, description: p.excerpt, ...(p.date ? { datePublished: p.date } : {}), ...(p.image ? { image: p.image } : {}), author: { '@id': `${site.url}/#clinic` }, publisher: { '@id': `${site.url}/#clinic` }, mainEntityOfPage: `${site.url}/blog/${p.slug}/` }]}>
+<PageLayout type="article" title={`${p.title} | Sellwood Medical Clinic`} description={p.excerpt} image={p.image || undefined} jsonld={[{ '@context': 'https://schema.org', '@type': 'BlogPosting', headline: p.title, description: p.excerpt, ...(p.date ? { datePublished: p.date, dateModified: p.date } : {}), ...(p.image ? { image: p.image } : {}), author: { '@type': 'Organization', name: site.name, url: `${site.url}/` }, publisher: { '@id': `${site.url}/#clinic` }, mainEntityOfPage: `${site.url}/blog/${p.slug}/` }]}>
   <PageHero eyebrow={[p.category, fmt(p.date)].filter(Boolean).join(' · ') || 'Blog'} title={p.title} crumbs={[{ label: 'Blog', href: '/blog/' }, { label: 'Article' }]} image={p.image || undefined} imageAlt={p.title} />
   <section class="relative overflow-hidden bg-cream px-5 py-20 md:px-10 md:py-28">
     <Aura tone="light" rich leaves={false} />

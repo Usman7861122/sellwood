@@ -64,13 +64,13 @@ const clinic = {
   medicalSpecialty: ['Pediatric', 'PrimaryCare', 'Gynecologic'],
   sameAs: [site.social.facebook, site.social.instagram],
   areaServed: ['Portland, OR', 'Beaverton, OR'],
-  department: locationPages.map((l) => ({
+  ...(['/', '/locations/'].includes(Astro.url.pathname) ? { department: locationPages.map((l) => ({
     '@type': 'MedicalClinic',
     name: `${site.name} – ${l.name}`,
     url: `${base}/locations/${l.slug}/`,
     telephone: '+1-503-595-9300',
     address: { '@type': 'PostalAddress', streetAddress: l.address, addressCountry: 'US', ...place(l.city) },
-  })),
+  })) } : {}),
 };
 const website = { '@context': 'https://schema.org', '@type': 'WebSite', '@id': `${base}/#website`, name: site.name, url: base + '/', publisher: { '@id': `${base}/#clinic` } };
 const graph = Astro.url.pathname === '/' ? [clinic, website, ...jsonld] : [clinic, ...jsonld];

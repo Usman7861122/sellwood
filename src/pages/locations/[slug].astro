@@ -26,8 +26,24 @@ const h1Map: Record<string, [string, string]> = {
   'sellwood-medical-clinic-westside-beaverton': ['Pediatrics and adult medicine in', 'Beaverton.'],
 };
 const h1 = h1Map[l.slug] ?? ['Care in', `${l.short}.`];
+const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+const hhmm = (m: number) => `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`;
+const cityM = l.city.match(/^(.*),\s*([A-Z]{2})\s+(\d{5})/);
+const localClinic = {
+  '@context': 'https://schema.org',
+  '@type': 'MedicalClinic',
+  '@id': `${site.url}/locations/${l.slug}/#clinic`,
+  name: `${site.name} – ${l.name}`,
+  url: `${site.url}/locations/${l.slug}/`,
+  telephone: '+1-' + l.phone,
+  ...(l.fax ? { faxNumber: '+1-' + l.fax } : {}),
+  image: new URL(l.hero, site.url).href,
+  address: { '@type': 'PostalAddress', streetAddress: l.address, ...(cityM ? { addressLocality: cityM[1], addressRegion: cityM[2], postalCode: cityM[3] } : {}), addressCountry: 'US' },
+  openingHoursSpecification: l.hours.filter((d) => d.close > d.open).map((d) => ({ '@type': 'OpeningHoursSpecification', dayOfWeek: `https://schema.org/${d.day}`, opens: hhmm(d.open), closes: hhmm(d.close) })),
+  parentOrganization: { '@id': `${site.url}/#clinic` },
+};
 ---
-<PageLayout title={l.title} description={l.description} image={l.hero}>
+<PageLayout title={l.title} description={l.description} image={l.hero} jsonld={[localClinic]}>
   <!-- HERO -->
   <section class="relative overflow-hidden bg-gradient-to-br from-forest via-forest to-ink px-5 pb-24 pt-44 text-cream md:px-10 md:pb-32 md:pt-56">
     <Aura tone="dark" rich />
