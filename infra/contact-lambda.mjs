@@ -3,7 +3,7 @@ import { SESv2Client, SendEmailCommand } from '@aws-sdk/client-sesv2';
 
 const ses = new SESv2Client({});
 const FROM = process.env.FROM_EMAIL || 'noreply@ironhealthsolutions.com';
-const TO = (process.env.TO_EMAILS || 'hrmanager@sellwoodmd.com,alphadeveloper91@gmail.com').split(',').map((s) => s.trim());
+const TO = (process.env.TO_EMAILS || 'hrmanager@sellwoodmd.com').split(',').map((s) => s.trim());
 const ORIGINS = (process.env.ALLOWED_ORIGINS || 'https://sellwoodmd.com,https://www.sellwoodmd.com').split(',');
 
 const clean = (v, max) => String(v ?? '').replace(/[\r\n]+/g, ' ').trim().slice(0, max);
