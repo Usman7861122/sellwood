@@ -18,6 +18,14 @@ import { providerPages } from '../../data/providerPages';
 const pp = (name: string) => providerPages.find((x) => x.name === name);
 const initials = (n: string) => n.split(' ').map((w) => w[0]).slice(0, 2).join('');
 const others = locations.filter((o) => !o.name.includes(l.short) || !o.name.startsWith('Pediatrics,'));
+const h1Map: Record<string, [string, string]> = {
+  'pediatrics-sellwood': ['Pediatrics in', 'Sellwood, Portland.'],
+  'sellwood-medical-clinic': ['Family and primary care in', 'Sellwood, Portland.'],
+  'sellwood-gynecology': ['Gynecology in', 'Sellwood, Portland.'],
+  'sellwood-medical-clinic-north-pediatrics': ['Pediatrics in', 'North Portland.'],
+  'sellwood-medical-clinic-westside-beaverton': ['Pediatrics and adult medicine in', 'Beaverton.'],
+};
+const h1 = h1Map[l.slug] ?? ['Care in', `${l.short}.`];
 ---
 <PageLayout title={l.title} description={l.description} image={l.hero}>
   <!-- HERO -->
@@ -32,7 +40,7 @@ const others = locations.filter((o) => !o.name.includes(l.short) || !o.name.star
       </Reveal>
       <Reveal client:load delay={0.1}><p class="eyebrow mt-10 text-sprout">Sellwood Medical Clinic</p></Reveal>
       <Reveal client:load delay={0.15}>
-        <h1 class="mt-5 max-w-4xl font-display text-5xl leading-[1.05] md:text-7xl">Pediatrics in <em class="text-sprout">{l.short}.</em></h1>
+        <h1 class="mt-5 max-w-4xl font-display text-5xl leading-[1.05] md:text-7xl">{h1[0]} <em class="text-sprout">{h1[1]}</em></h1>
       </Reveal>
       <Reveal client:load delay={0.25}>
         <p class="mt-8 text-lg text-cream/80 md:text-xl">{l.address}, {l.city}</p>
