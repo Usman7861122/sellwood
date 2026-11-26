@@ -35,10 +35,12 @@ export default function CookieConsent() {
       const v = localStorage.getItem(KEY);
       if (v) { const j = JSON.parse(v); setPrefs({ analytics: !!j.analytics, marketing: !!j.marketing }); saved = true; }
     } catch {}
-    if (!saved) setShow(true);
+    // Show the banner a moment after load so it never competes with the main content for first paint.
+    let t: number | undefined;
+    if (!saved) t = window.setTimeout(() => setShow(true), 1800);
     const open = () => { setCustom(true); setShow(true); };
     window.addEventListener('open-cookie-settings', open);
-    return () => window.removeEventListener('open-cookie-settings', open);
+    return () => { window.removeEventListener('open-cookie-settings', open); if (t) window.clearTimeout(t); };
   }, []);
 
   const done = (p: Prefs) => { save(p); setPrefs(p); setShow(false); setCustom(false); };

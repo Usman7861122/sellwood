@@ -97,7 +97,7 @@ export default function Header() {
         <div className={`mx-auto flex max-w-[1400px] items-center justify-between px-5 transition-[padding] duration-500 md:px-10 ${solid ? 'py-2' : 'py-3 md:py-4'}`}>
           <a href="/" aria-label="Sellwood Medical Clinic home" className="block transition-transform duration-500 hover:scale-[1.03]">
             <img
-              src="/images/sellwood-logo.png"
+              src="/images/sellwood-logo-sm.webp"
               alt="Sellwood Medical Clinic"
               className={`w-auto drop-shadow-[0_4px_16px_rgba(0,0,0,.45)] transition-all duration-500 ${solid ? 'h-16 md:h-20' : 'h-20 md:h-32'}`}
             />
