@@ -9,7 +9,7 @@ const quick = [
   { label: 'Same Day Visit', href: '/services/same-day-visit/', cls: 'bg-maroon text-cream' },
   { label: 'Pediatric Appointments', href: `${site.old}/pediatric-appointments/`, cls: 'bg-sprout text-ink' },
   { label: 'Adult Medicine Appointments', href: `${site.old}/adult-medicine/`, cls: 'bg-cream text-forest' },
-  { label: 'Book Flu/Covid Vaccine', href: `${site.old}/book-flu-shoot/`, cls: 'bg-olive text-cream' },
+  { label: 'Book Flu/Covid Vaccine', href: `${site.old}/book-flu-shot/`, cls: 'bg-olive text-cream' },
 ];
 
 export default function Header() {

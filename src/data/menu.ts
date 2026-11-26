@@ -29,7 +29,7 @@ const quick: MenuLink[] = [
   L('Same Day Visit', '/services/same-day-visit/'),
   L('Pediatric Appointments', '/pediatric-appointments/'),
   L('Adult Medicine Appointments', '/adult-medicine/'),
-  L('Book Flu/Covid Vaccine', '/book-flu-shoot/'),
+  L('Book Flu/Covid Vaccine', '/book-flu-shot/'),
 ];
 
 export const menu: MenuItem[] = [
