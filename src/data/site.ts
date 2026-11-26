@@ -11,7 +11,7 @@ export const site = {
   portalUrl: 'https://3083.portal.athenahealth.com/',
   // One booking link for every "Book" button
   bookingUrl: `${OLD}/services/same-day-visit/`,
-  contactApi: '', // TODO: form endpoint
+  contactApi: 'https://6psk5sdtzfz3l2fcogp73ukcpu0sqsdn.lambda-url.us-east-1.on.aws/',
   social: {
     facebook: 'https://www.facebook.com/p/Sellwood-Medical-Clinic-100063637537414/',
     instagram: 'https://www.instagram.com/sellwood.medical.clinic/',
