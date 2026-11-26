@@ -1,13 +1,56 @@
 ---
-interface Props { title: string; description?: string; image?: string; noindex?: boolean }
-const { title, description = '', image, noindex = false } = Astro.props;
-const canonical = new URL(Astro.url.pathname, Astro.site);
+import { site } from '../../data/site';
+import { locationPages } from '../../data/locationPages';
+
+interface Props { title: string; description?: string; image?: string; noindex?: boolean; type?: 'website' | 'article'; jsonld?: object[] }
+const { title, description = '', image, noindex = false, type = 'website', jsonld = [] } = Astro.props;
+const base = site.url;
+const canonical = new URL(Astro.url.pathname, base).href;
+const abs = (u: string) => (u.startsWith('http') ? u : new URL(u, base).href);
+const ogImage = abs(image ?? '/images/og-default.jpg');
+
+const place = (c: string) => {
+  const m = c.match(/^(.*),\s*([A-Z]{2})\s+(\d{5})/);
+  return m ? { addressLocality: m[1], addressRegion: m[2], postalCode: m[3] } : {};
+};
+const clinic = {
+  '@context': 'https://schema.org',
+  '@type': ['MedicalClinic', 'Pediatric'],
+  '@id': `${base}/#clinic`,
+  name: site.name,
+  url: base + '/',
+  description: site.description,
+  telephone: '+1-503-595-9300',
+  logo: abs('/images/sellwood-logo.png'),
+  image: abs('/images/og-default.jpg'),
+  priceRange: '$$',
+  medicalSpecialty: ['Pediatric', 'PrimaryCare', 'Gynecologic'],
+  sameAs: [site.social.facebook, site.social.instagram],
+  areaServed: ['Portland, OR', 'Beaverton, OR'],
+  department: locationPages.map((l) => ({
+    '@type': 'MedicalClinic',
+    name: `${site.name} – ${l.name}`,
+    url: `${base}/locations/${l.slug}/`,
+    telephone: '+1-503-595-9300',
+    address: { '@type': 'PostalAddress', streetAddress: l.address, addressCountry: 'US', ...place(l.city) },
+  })),
+};
+const website = { '@context': 'https://schema.org', '@type': 'WebSite', '@id': `${base}/#website`, name: site.name, url: base + '/', publisher: { '@id': `${base}/#clinic` } };
+const graph = Astro.url.pathname === '/' ? [clinic, website, ...jsonld] : [clinic, ...jsonld];
 ---
 <title>{title}</title>
 {description && <meta name="description" content={description} />}
 <link rel="canonical" href={canonical} />
-{noindex && <meta name="robots" content="noindex" />}
+<meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large'} />
+<meta property="og:site_name" content={site.name} />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content={type} />
 <meta property="og:title" content={title} />
 {description && <meta property="og:description" content={description} />}
-{image && <meta property="og:image" content={image} />}
+<meta property="og:image" content={ogImage} />
 <meta property="og:url" content={canonical} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+{description && <meta name="twitter:description" content={description} />}
+<meta name="twitter:image" content={ogImage} />
+{graph.map((g) => <script type="application/ld+json" set:html={JSON.stringify(g)} />)}

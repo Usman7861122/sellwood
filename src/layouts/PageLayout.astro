@@ -5,7 +5,7 @@ import Footer from '../components/layout/Footer.astro';
 import MobileBar from '../components/layout/MobileBar.astro';
 import ScrollProgress from '../islands/ScrollProgress';
 
-interface Props { title: string; description?: string; image?: string; noindex?: boolean }
+interface Props { title: string; description?: string; image?: string; noindex?: boolean; type?: 'website' | 'article'; jsonld?: object[] }
 ---
 <BaseLayout {...Astro.props}>
   <ScrollProgress client:load />

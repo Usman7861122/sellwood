@@ -1,4 +1,12 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import PageHero from '../components/ui/PageHero.astro';
 ---
-<PageLayout title="TODO"></PageLayout>
+<PageLayout noindex title="Page not found | Sellwood Medical Clinic" description="This page could not be found.">
+  <PageHero eyebrow="404" title="We could not find that page." intro="The link may be old or mistyped. Try the home page, or call us at 503-595-9300.">
+    <div class="mt-10 flex flex-wrap gap-3">
+      <a href="/" class="btn btn-primary">Back to home</a>
+      <a href="/services/" class="btn btn-ghost">Our services</a>
+    </div>
+  </PageHero>
+</PageLayout>

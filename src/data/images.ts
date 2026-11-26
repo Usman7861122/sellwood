@@ -4,7 +4,7 @@ const BASE = 'https://sellwoodmd.com/wp-content/uploads/';
 const u = (p: string) => BASE + p;
 
 export const images = {
-  logo: '/images/logo.png',
+  logo: '/images/sellwood-logo.png',
   skyline: u('2025/08/sellwood-2.jpg'),
   building: u('2025/08/sellwood-1.jpg'),
   about: u('2025/07/black-family.jpg'),

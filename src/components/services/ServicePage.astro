@@ -36,6 +36,7 @@ for (const b of all) {
   (cur ?? intro).push(b);
 }
 faqs.forEach((f) => { f.items = group((f as any)._b); });
+const faqLd = faqs.length ? [{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: ((f as any)._b as Block[]).map((b) => b[1]).join(' ') } })) }] : [];
 const introHead = intro.find((b) => b[0] === 'h')?.[1];
 const introItems = group(intro.filter((b) => b[0] !== 'h'));
 
@@ -50,7 +51,7 @@ const related = services.filter((x) => x.group === s.group && x.path !== s.path)
 const base = `/services/${s.path}/`;
 const locs = locationsOf(s);
 ---
-<PageLayout title={title} description={description} image={s.img}>
+<PageLayout title={title} description={description} image={s.img} jsonld={faqLd}>
   <!-- HERO -->
   <section class="relative overflow-hidden bg-gradient-to-br from-forest via-forest to-ink px-5 pb-24 pt-44 text-cream md:px-10 md:pb-32 md:pt-56">
     <Aura tone="dark" rich />
