@@ -89,8 +89,8 @@ export const posts = [
 ] as const;
 
 export const locations = [
-  { name: 'Pediatrics, Sellwood', address: '8332 SE 13th Avenue', city: 'Portland, OR 97202' },
-  { name: 'Adult Medicine, Sellwood', address: '8333 SE 13th Avenue', city: 'Portland, OR 97202' },
+  { name: 'Pediatrics, Sellwood', address: '8333 SE 13th Avenue', city: 'Portland, OR 97202' },
+  { name: 'Adult Medicine, Sellwood', address: '8332 SE 13th Avenue', city: 'Portland, OR 97202' },
   { name: 'Pediatrics, North Portland', address: '6234 N Greeley Avenue', city: 'Portland, OR 97217' },
   { name: 'Pediatrics & Adult Medicine, Westside', address: '9925 SW Nimbus Ave Suite 100', city: 'Beaverton, OR 97008' },
 ];
@@ -98,11 +98,11 @@ export const locations = [
 // Every office, used by service pages and their per-location versions.
 export interface ServiceLocation { slug: string; label: string; where: string; full: string; address: string; city: string; place: string; care: string; nearby: string }
 export const officeLocations: ServiceLocation[] = [
-  { slug: 'sellwood', label: 'Sellwood', where: 'Sellwood, Portland, OR', full: 'Pediatrics, Sellwood', address: '8332 SE 13th Avenue', city: 'Portland, OR 97202', place: 'Portland', care: 'Pediatrics', nearby: 'Patients are welcome from across Sellwood, Westmoreland, Brooklyn, Eastmoreland, Milwaukie, Oak Grove and the greater Portland area.' },
+  { slug: 'sellwood', label: 'Sellwood', where: 'Sellwood, Portland, OR', full: 'Pediatrics, Sellwood', address: '8333 SE 13th Avenue', city: 'Portland, OR 97202', place: 'Portland', care: 'Pediatrics', nearby: 'Patients are welcome from across Sellwood, Westmoreland, Brooklyn, Eastmoreland, Milwaukie, Oak Grove and the greater Portland area.' },
   { slug: 'north-portland', label: 'North Portland', where: 'North Portland, OR', full: 'Pediatrics, North Portland', address: '6234 N Greeley Avenue', city: 'Portland, OR 97217', place: 'Portland', care: 'Pediatrics', nearby: 'Patients are welcome from across North Portland, St. Johns, Kenton, Overlook, Piedmont, Portsmouth and the greater Portland area.' },
   { slug: 'beaverton', label: 'Beaverton', where: 'Beaverton, OR', full: 'Pediatrics & Adult Medicine, Westside', address: '9925 SW Nimbus Ave Suite 100', city: 'Beaverton, OR 97008', place: 'Beaverton', care: 'Pediatrics & Adult Medicine', nearby: 'Patients are welcome from across Beaverton, Aloha, Tigard, Hillsboro, Tualatin and the greater Washington County area.' },
-  { slug: 'sellwood-adult-medicine', label: 'Sellwood Adult Medicine', where: 'Sellwood (Adult Medicine), Portland, OR', full: 'Adult Medicine, Sellwood', address: '8333 SE 13th Avenue', city: 'Portland, OR 97202', place: 'Portland', care: 'Adult Medicine', nearby: 'Patients are welcome from across Sellwood, Westmoreland, Brooklyn, Eastmoreland, Milwaukie, Oak Grove and the greater Portland area.' },
-  { slug: 'sellwood-gynecology', label: 'Sellwood Gynecology', where: 'Sellwood, Portland, OR', full: 'Gynecology, Sellwood', address: '8333 SE 13th Avenue', city: 'Portland, OR 97202', place: 'Portland', care: 'Gynecology', nearby: 'Patients are welcome from across Sellwood, Westmoreland, Brooklyn, Eastmoreland, Milwaukie, Oak Grove and the greater Portland area.' },
+  { slug: 'sellwood-adult-medicine', label: 'Sellwood Adult Medicine', where: 'Sellwood (Adult Medicine), Portland, OR', full: 'Adult Medicine, Sellwood', address: '8332 SE 13th Avenue', city: 'Portland, OR 97202', place: 'Portland', care: 'Adult Medicine', nearby: 'Patients are welcome from across Sellwood, Westmoreland, Brooklyn, Eastmoreland, Milwaukie, Oak Grove and the greater Portland area.' },
+  { slug: 'sellwood-gynecology', label: 'Sellwood Gynecology', where: 'Sellwood, Portland, OR', full: 'Gynecology, Sellwood', address: '8332 SE 13th Avenue', city: 'Portland, OR 97202', place: 'Portland', care: 'Gynecology', nearby: 'Patients are welcome from across Sellwood, Westmoreland, Brooklyn, Eastmoreland, Milwaukie, Oak Grove and the greater Portland area.' },
 ];
 const byslug = (...s: string[]) => officeLocations.filter((l) => s.includes(l.slug));
 export const pediatricLocations: ServiceLocation[] = byslug('sellwood', 'north-portland', 'beaverton');

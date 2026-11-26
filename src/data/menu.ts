@@ -162,9 +162,9 @@ export const menu: MenuItem[] = [
       },
       groups: [{
         links: [
-          I('Pediatrics – Sellwood', '/locations/pediatrics-sellwood/', '8332 SE 13th Ave, Portland'),
-          L('Adult Medicine – Sellwood', '/locations/sellwood-medical-clinic/', '8333 SE 13th Ave, Portland'),
-          L('Gynecology – Sellwood', '/locations/sellwood-gynecology/', '8333 SE 13th Ave, Portland'),
+          I('Pediatrics – Sellwood', '/locations/pediatrics-sellwood/', '8333 SE 13th Ave, Portland'),
+          L('Adult Medicine – Sellwood', '/locations/sellwood-medical-clinic/', '8332 SE 13th Ave, Portland'),
+          L('Gynecology – Sellwood', '/locations/sellwood-gynecology/', '8332 SE 13th Ave, Portland'),
           L('Pediatrics – North Portland', '/locations/sellwood-medical-clinic-north-pediatrics/', '6234 N Greeley Ave, Portland'),
           L('Pediatrics & Adult Medicine – Westside/Beaverton', '/locations/sellwood-medical-clinic-westside-beaverton/', '9925 SW Nimbus Ave, Beaverton'),
         ],
